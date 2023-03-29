@@ -3,14 +3,14 @@
   justify-content: center;
   align-items: center;
   margin-top: 40px;
-  width: 100%;
+  /* width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.5); /* 设置一个透明的背景色 */
-  position: relative;
-  box-sizing: border-box;
+  /* position: relative;
+  box-sizing: border-box;  */
 }
 
-
+/* 
 .App::before {
   content: "";
   background: inherit;
@@ -22,8 +22,8 @@
   bottom: -10px;
   right: -10px;
   z-index: -1;
-}
-
+} */
+/* 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -44,17 +44,17 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
-.App-link {
+/* .App-link {
   color: #61dafb;
-}
+} */
 
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */

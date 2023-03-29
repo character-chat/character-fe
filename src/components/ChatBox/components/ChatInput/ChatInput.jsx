@@ -18,13 +18,15 @@ display: flex;
 const Button = styled.button`
 width: 13%;
 height: 80%;
-background-color: black;
+background-color: green;
+color: white;
 display: flex;
+justify-content:center;
 align-items: center;
 `
 
 export const ChatInput = ({sendRequest})=>{
-    const [inputs,setInputs] = useState("Hello, how are you?");
+    const [inputs,setInputs] = useState("");
 
     const changeInputsHandler = (event)=>{
         setInputs(event.target.value)
@@ -42,8 +44,8 @@ export const ChatInput = ({sendRequest})=>{
 
     return(
         <ChatInputContainer>
-            <Input onChange={changeInputsHandler}/>
-            <Button onClick={clickHandler}/>
+            <Input onChange={changeInputsHandler} value={inputs} placeholder="Please type your question"/>
+            <Button onClick={clickHandler}>Send</Button>
         </ChatInputContainer>
     )
 }

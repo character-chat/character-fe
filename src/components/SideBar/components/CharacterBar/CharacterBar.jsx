@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import CharacterItem from "./components/CharacterItme"
+import CharacterItem from "./components/CharacterItem"
 
 const CharacterBarContainer = styled.div`
 width: 180px;
@@ -11,19 +11,12 @@ margin: 0;
 // -webkit-filter: blur(10px);
 // z-index: -2;
 `
-export const CharacterBar = ()=>{
-    const mockData = [
-        {id: 1,
-        name: "Elon Musk",
-        img: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE"},
-        {id: 2,
-        name: "Sam Altman",
-        img: "https://i.insider.com/63d93b280a08ae0018a62b4f"}]
+export const CharacterBar = ({mockData, setCurrentCharacter,reLoadHistory})=>{
+    
     return(
         <CharacterBarContainer>
             {mockData.map(character => {
-                console.log(character)
-                return(<CharacterItem key={character.id}  character={character}/>)
+                return(<CharacterItem key={character.id}  setCurrentCharacter={setCurrentCharacter} character={character} reLoadHistory={reLoadHistory}/>)
             })}
         </CharacterBarContainer>
     )
