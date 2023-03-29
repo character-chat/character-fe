@@ -14,11 +14,11 @@ overflow: scroll;
 overflow-x: hidden;
 `
 
-export const ChatContent = ({mockResponse})=>{
+export const ChatContent = ({currentChatHistory,currentCharacter})=>{
     return(
         <ChatContentContainer>
-            {mockResponse.map(responseObj=>{
-                return(<ChatContentItem key={responseObj.id} responseObj={responseObj}/>)})}
+            {currentChatHistory.map(chatHistory=>{
+                return(<ChatContentItem key={chatHistory.id} currentCharacter={currentCharacter} currentChatHistory={chatHistory}/>)})}
         </ChatContentContainer>
     )
 

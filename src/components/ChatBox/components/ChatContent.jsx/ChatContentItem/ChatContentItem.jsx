@@ -22,18 +22,17 @@ width: 80%;
 background-color: white;
 `
 
-export const ChatContentItem = ({responseObj})=>{
+export const ChatContentItem = ({currentChatHistory, currentCharacter})=>{
     return(
         <ChatContentItemContainer>
             <IamgeContainer>
-                <Iamge src={"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE"}/> 
+                <Iamge src={currentCharacter.img}/> 
             </IamgeContainer>
             <ContentContainer>
-                {responseObj.response}
+                {currentChatHistory.answer}
             </ContentContainer>
         </ChatContentItemContainer>
     )
-
 }
 
 export default ChatContentItem

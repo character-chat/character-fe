@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import ChatContent from "./components/ChatContent.jsx/ChatContent";
 import styled from "styled-components";
 import ChatInput from "./components/ChatInput";
@@ -14,24 +14,13 @@ align-items: center;
 `
 
 
-export const ChatBox =()=>{
-    const [content,setContent] = useState([])
-
-    const mockResponse = [
-        {id:1,response: 'hello'},
-        {id:2,response: 'thanks!'},
-        {id:3,response: 'hello'},
-        {id:4,response: 'thanks!'},
-        {id:5,response: 'hello'},
-        {id:2,response: 'thanks!'},
-        {id:1,response: 'hello'},
-        {id:2,response: 'thanks!'},
-        {id:1,response: 'hello'},
-        {id:2,response: 'thanks!'},
-        {id:1,response: 'hello'},
-        {id:2,response: 'thanks!'}
-    ]
-
+export const ChatBox =({currentCharacter,currentChatHistory,seCurrentHistory})=>{
+    const [content, setContent] = useState([])
+    // const [answer, setAnswer] = useState({})
+    
+    // useEffect(()=>{
+    //     seCurrentHistory((preState)=>[...preState, content])
+    // },[content])
 
     const sendRequest = (input)=>{
         console.log(input)
@@ -46,14 +35,14 @@ export const ChatBox =()=>{
         "max_length": 50
     } };
       axios.post(API_URL, data, { headers })
-      .then(responseRes => {setContent(preState=> [...preState,{id: 1,response:responseRes.data[0].generated_text}])})
-      .catch(error => {setContent(preState=> [...preState,{id: 1,response:error.message}])})
+      .then(responseRes => {setContent({historyId:1,question:"hello",answer:"hello",createdTime: '2023-02-1 14:00',updateTime: '2023-02-01 14:01'})})
+      .catch(error => {setContent({historyId:1,question:"hello",answer:"hello",createdTime: '2023-02-1 14:00',updateTime: '2023-02-01 14:01'})})
     }
 
     return(
         <ChatBoxContainer>
-            <ChatContent mockResponse={content}/>
-            <ChatInput sendRequest={sendRequest}/>
+            <ChatContent currentChatHistory={currentChatHistory} currentCharacter={currentCharacter}/>
+            <ChatInput sendRequest={sendRequest} setContent={setContent}/>
         </ChatBoxContainer>
     )
 }
