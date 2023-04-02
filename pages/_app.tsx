@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
+import './indexstyle.css'
 import { useEffect } from "react";
 
 import type { AppProps } from 'next/app'
