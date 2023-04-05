@@ -51,8 +51,7 @@ export const CharacterItem=({character, setCurrentCharacter,reLoadHistory })=>{
                 <NameContainer>
                     {name}
                 </NameContainer>
-            </CharacterContainer>
-            
+            </CharacterContainer> 
         </div>
     )
 }
