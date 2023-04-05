@@ -9,8 +9,8 @@ function ChatInput({setMockHistory}) {
 
   const sendHandler = ()=>{
     const newHistory = {historyId: 1, sender:'cxc', type: 'user', content:[inputValue], time:'7:00 PM'}
-    console.log(newHistory)
     setMockHistory((preState)=>[...preState, newHistory])
+    setInputValue('')
   }
 
   return (
@@ -24,6 +24,7 @@ function ChatInput({setMockHistory}) {
                 className="form-control border-0 pl-0"
                 placeholder="Type your message..."
                 onChange={inputHandler}
+                value={inputValue}
               />
 
               <div className="input-group-append d-none d-sm-block">
