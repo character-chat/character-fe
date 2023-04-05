@@ -3,7 +3,7 @@
 import { Inter } from "next/font/google";
 import ChatBox from "./ChatBox/ChatBox";
 import SideBar from "../components/SideBar";
-import Contact from "../pages/MiddleBar/components/Contact";
+import Contact from "./MiddleBar/Contact";
 import MainBox from "./MainBox";
 import DefaultChatReminder from "../components/DefaultChatReminder";
 import ToolColumn from "../components/ToolColumn";
