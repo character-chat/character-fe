@@ -1,7 +1,8 @@
 import React from "react";
 import CharacterChatItemContent from "./components/CharacterChatItemContent";
 
-function CharacterChatItem({avatar}) {
+function CharacterChatItem({avatar, chatHistory}) {
+  const {historyId, time, content} = chatHistory
   return (
     <li className="d-flex message">
       <div className="mr-lg-3 me-2">
@@ -13,8 +14,8 @@ function CharacterChatItem({avatar}) {
       </div>
 
       <div className="message-body">
-        <span className="date-time text-muted">Michelle, 7:19 PM</span>
-        <CharacterChatItemContent/>
+        <span className="date-time text-muted">Michelle, {time}</span>
+        {content.map((contentItem)=><CharacterChatItemContent key={historyId} content={contentItem}/>)}
       </div>
     </li>
   );

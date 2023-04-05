@@ -1,10 +1,10 @@
 import React from "react";
 
-function CharacterChatItemContent(props) {
+function CharacterChatItemContent({content}) {
   return (
     <div className="message-row d-flex align-items-center">
       <div className="message-content p-3">
-        Hello, <br /> How are you?
+        {content}
       </div>
 
       <div className="dropdown">

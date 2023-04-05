@@ -1,6 +1,6 @@
-import './assets/css/style.min.css'
-import './assets/fonts/material-icon/css/material-design-iconic-font.min.css'
-import './assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css'
+import '../public/assets/css/style.min.css'
+import '../public/assets/fonts/material-icon/css/material-design-iconic-font.min.css'
+import '../public/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css'
 
 import { useEffect } from "react";
 

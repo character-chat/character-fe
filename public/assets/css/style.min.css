@@ -10259,6 +10259,8 @@ body.admin .main-body .body-page::-webkit-scrollbar-thumb {
   -webkit-box-flex: 2;
   -ms-flex: 2;
   flex: 2;
+  display: flex;
+  flex-direction: column-reverse; 
 }
 .main .chat-body .chat-content::-webkit-scrollbar {
   width: 0;

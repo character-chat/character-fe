@@ -131,22 +131,14 @@ export default function Home() {
     },
   ];
 
-  const [currentChatCharacter, setCurrentChatCharacter] = useState({
-    id: 1,
-      name: "Elon Musk",
-      time: "last 6 seconds",
-      img:
-        "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcRNug2nY7GDEG23c7HpAX6pWLWp3dfcQmTxGz50nGt_kAqGyAxoVPLw21v137iB7iAW",
-      history: [],
-  });
+  const [currentChatCharacter, setCurrentChatCharacter] = useState();
 
   return (
     <div className="App">
       <div id="layout" className="theme-cyan">
         <SideBar />
         <Contact setCurrentChatCharacter={setCurrentChatCharacter}/>
-        <MainBox currentChatCharacter={currentChatCharacter} />
-        {/* <DefaultChatReminder /> */}
+        {currentChatCharacter===undefined?<DefaultChatReminder />:<MainBox currentChatCharacter={currentChatCharacter} />}
         <ToolColumn />
       </div>
 

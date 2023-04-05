@@ -1,6 +1,6 @@
 import React from "react";
 
-function UserChatItemContent(props) {
+function UserChatItemContent({content}) {
   return (
     <div className="message-row d-flex align-items-center justify-content-end">
       <div className="dropdown">
@@ -26,7 +26,7 @@ function UserChatItemContent(props) {
         </div>
       </div>
 
-      <div className="message-content border p-3">Hello, David</div>
+      <div className="message-content border p-3">{content}</div>
     </div>
   );
 }
