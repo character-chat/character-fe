@@ -25,8 +25,7 @@ export default function Home() {
   const [currentCharacter, setCurrentCharacter] = useState({
     id: 1,
     name: "Elon Musk",
-    img:
-      "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
+    img: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
     history: [],
   });
   const [currentChatHistory, setCurrentHistory] = useState([
@@ -109,8 +108,7 @@ export default function Home() {
     {
       id: 1,
       name: "Elon Musk",
-      img:
-        "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
+      img: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
     },
     {
       id: 2,
@@ -120,14 +118,12 @@ export default function Home() {
     {
       id: 3,
       name: "Thomas",
-      img:
-        "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcRNug2nY7GDEG23c7HpAX6pWLWp3dfcQmTxGz50nGt_kAqGyAxoVPLw21v137iB7iAW",
+      img: "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcRNug2nY7GDEG23c7HpAX6pWLWp3dfcQmTxGz50nGt_kAqGyAxoVPLw21v137iB7iAW",
     },
     {
       id: 4,
       name: "TJ",
-      img:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/T._J._Miller_by_Gage_Skidmore.jpg/440px-T._J._Miller_by_Gage_Skidmore.jpg",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/T._J._Miller_by_Gage_Skidmore.jpg/440px-T._J._Miller_by_Gage_Skidmore.jpg",
     },
   ];
 
@@ -137,8 +133,12 @@ export default function Home() {
     <div className="App">
       <div id="layout" className="theme-cyan">
         <SideBar />
-        <Contact setCurrentChatCharacter={setCurrentChatCharacter}/>
-        {currentChatCharacter===undefined?<DefaultChatReminder />:<MainBox currentChatCharacter={currentChatCharacter} />}
+        <Contact setCurrentChatCharacter={setCurrentChatCharacter} />
+        {currentChatCharacter === undefined ? (
+          <DefaultChatReminder />
+        ) : (
+          <MainBox currentChatCharacter={currentChatCharacter} />
+        )}
         <ToolColumn />
       </div>
 

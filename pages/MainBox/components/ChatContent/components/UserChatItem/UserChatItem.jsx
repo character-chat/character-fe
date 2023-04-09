@@ -2,14 +2,16 @@ import React from "react";
 import UserChatItemContent from './components/UserChatItemContent'
 
 function UserChatItem({chatHistory}) {
-  const {historyId, time, content} = chatHistory
+  const {historyId, createTime, content, isBreak} = chatHistory
+
+  const time = createTime.split(' ')[1]
   return (
     <li className="d-flex message right">
       <div className="message-body">
-        <span className="date-time text-muted">
+        {isBreak && <span className="date-time text-muted">
           {time}<i className="zmdi zmdi-check-all text-primary"></i>
-        </span>
-        {content.map((contentItem)=><UserChatItemContent key={historyId} content={contentItem}/>)}
+        </span>}
+       <UserChatItemContent key={historyId} content={content}/>
       </div>
     </li>
   );

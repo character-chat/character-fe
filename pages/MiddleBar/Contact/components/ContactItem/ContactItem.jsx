@@ -1,7 +1,7 @@
 import React from "react";
 
 function ContactItem({ currentCharacter, setCurrentChatCharacter }) {
-  const { name, time, history, avatar } = currentCharacter;
+  const {  name, time, avatar } = currentCharacter;
   return (
     <li>
       <div className="hover_action">

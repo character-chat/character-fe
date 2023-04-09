@@ -1,27 +1,30 @@
-import DefaultChatReminder from "../../components/DefaultChatReminder";
 import ChatHeader from './components/ChatHeader'
 import ChatContent from './components/ChatContent'
 import ChatInput from './components/ChatInput'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from 'axios';
 
 
-export const MainBox = ({currentChatCharacter}) => {
-  const {id,name,time,history,avatar} = currentChatCharacter
-  const [mockHistory, setMockHistory] = useState([
-    {historyId: 1, sender:'cxc', type: 'user', content:['hello','today is sunny day'], time:'7:00 PM'},
-    {historyId: 2, sender:'Musk', type: 'character', content:['Yeah, what a nice day!'], time:'7:01 PM'},
-    {historyId: 3, sender:'cxc', type: 'user', content:['I want to eat noodles'], time:'7:03 PM'},
-    {historyId: 4, sender:'Musk', type: 'character', content:['what kind of noodles do you like?','LanZhou beef noodles is a good choice'], time:'7:05 PM'},
-    {historyId: 5, sender:'cxc', type: 'user', content:['emmmmm...... I dont known'], time:'7:07 PM'},
-    {historyId: 6, sender:'Musk', type: 'character', content:['Ok','what about ChongQing noodles??'], time:'7:10 PM'}
-  ])
+export const MainBox = ({currentChatCharacter , type}) => {
+  const {id, name,time, avatar} = currentChatCharacter
+  const [history, setHistory] = useState([])
+
+  const getHistory = async function() {
+    const res = await axios.get(`http://localhost:8080/api/v1/chat/user/1?characterId=${id}`)
+    const data = res.data
+    setHistory(data)
+  }
+
+  useEffect(()=>{
+    getHistory()
+  } ,[currentChatCharacter])
 
   return (
     <div className="main px-xl-5 px-lg-4 px-3">
       <div className="chat-body">
         <ChatHeader name={name} avatar={avatar} time={time}/>
-        <ChatContent chatHistoryArray={mockHistory} avatar={avatar}/>
-        <ChatInput setMockHistory={setMockHistory}/>
+        <ChatContent chatHistoryArray={history} name={name} avatar={avatar}/>
+        <ChatInput setHistory={setHistory} currentChatCharacter={currentChatCharacter}/>
       </div>
     </div>
   );

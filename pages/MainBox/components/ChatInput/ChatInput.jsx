@@ -1,18 +1,73 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 
-function ChatInput({setMockHistory}) {
-  const [inputValue, setInputValue] = useState('')
+function ChatInput({ setHistory, currentChatCharacter }) {
+  const { id } = currentChatCharacter;
+  const [inputValue, setInputValue] = useState("");
+  const isBreak = useRef(true);
+  const isJustSend = useRef(false);
 
-  const inputHandler = (event)=>{
-    setInputValue(event.target.value)
-  }
+  useEffect(() => {
+    let timerId;
 
-  const sendHandler = ()=>{
-    const newHistory = {historyId: 1, sender:'cxc', type: 'user', content:[inputValue], time:'7:00 PM'}
-    setMockHistory((preState)=>[...preState, newHistory])
-    setInputValue('')
-  }
+    if (isJustSend.current) {
+      isBreak.current = false;
+      timerId = setTimeout(() => {
+        isBreak.current = true;
+        isJustSend.current = false;
+      }, 10000);
+    }
 
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [isJustSend.current]);
+
+  const inputHandler = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const getResponse = async function (isBreak) {
+    const res = await axios.put(
+      `http://localhost:8080/api/v1/chat/user/1?characterId=${id}&content=${inputValue}&isBreak=${isBreak.current}`
+    );
+    const responseHistory = res.data;
+    responseHistory.map((responseHistoryItem) => {
+      setHistory((preState) => [...preState, responseHistoryItem]);
+    });
+  };
+
+  const sendHandler = () => {
+    const now = new Date();
+    const formatted = now.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZone: "UTC",
+    });
+
+    const requestHistory = {
+      historyId: 1,
+      sender: "cxc",
+      type: "user",
+      content: inputValue,
+      createTime: formatted,
+      isBreak: isBreak.current,
+    };
+    setHistory((preState) => [...preState, requestHistory]);
+    getResponse(isBreak);
+    setInputValue("");
+    isJustSend.current = true;
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      sendHandler();
+    }
+  };
   return (
     <div className="chat-footer border-top py-xl-4 py-lg-2 py-2">
       <div className="container-xxl">
@@ -24,6 +79,7 @@ function ChatInput({setMockHistory}) {
                 className="form-control border-0 pl-0"
                 placeholder="Type your message..."
                 onChange={inputHandler}
+                onKeyDown={handleKeyPress}
                 value={inputValue}
               />
 
@@ -66,7 +122,11 @@ function ChatInput({setMockHistory}) {
 
               <div className="input-group-append">
                 <span className="input-group-text border-0 pr-0">
-                  <button type="submit" className="btn btn-primary" onClick={sendHandler}>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={sendHandler}
+                  >
                     <span className="d-none d-md-inline-block me-2">Send</span>
                     <i className="zmdi zmdi-mail-send"></i>
                   </button>

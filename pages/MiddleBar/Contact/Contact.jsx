@@ -8,7 +8,6 @@ export const Contact = ({setCurrentChatCharacter}) => {
       time: "last 6 seconds",
       avatar:
         "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
-      history: [],
     },
     {
       id: 2,
@@ -16,7 +15,6 @@ export const Contact = ({setCurrentChatCharacter}) => {
       time: "last 6 seconds",
       avatar:
         "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcRNug2nY7GDEG23c7HpAX6pWLWp3dfcQmTxGz50nGt_kAqGyAxoVPLw21v137iB7iAW",
-      history: [],
     },
   ];
   return (
