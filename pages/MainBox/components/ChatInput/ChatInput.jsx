@@ -1,35 +1,36 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function ChatInput({ setHistory, currentChatCharacter }) {
   const { id } = currentChatCharacter;
   const [inputValue, setInputValue] = useState("");
-  const isBreak = useRef(true);
-  const isJustSend = useRef(false);
+  const [isBreak, setIsBreak] = useState(true);
+  const [isJustSend, setIsJustSend] = useState(false);
 
   useEffect(() => {
     let timerId;
 
-    if (isJustSend.current) {
-      isBreak.current = false;
+    if (isJustSend) {
+      setIsBreak(false);
       timerId = setTimeout(() => {
-        isBreak.current = true;
-        isJustSend.current = false;
+        setIsBreak(true);
+        setIsJustSend(false)
       }, 10000);
     }
 
     return () => {
       clearTimeout(timerId);
     };
-  }, [isJustSend.current]);
+  }, [isJustSend]);
 
   const inputHandler = (event) => {
     setInputValue(event.target.value);
+    console.log(inputValue);
   };
 
-  const getResponse = async function (isBreak) {
+  const getResponse = async function () {
     const res = await axios.put(
-      `http://localhost:8080/api/v1/chat/user/1?characterId=${id}&content=${inputValue}&isBreak=${isBreak.current}`
+      `http://localhost:8080/api/v1/chat/user/1?characterId=${id}&content=${inputValue}&isBreak=${isBreak}`
     );
     const responseHistory = res.data;
     responseHistory.map((responseHistoryItem) => {
@@ -55,12 +56,12 @@ function ChatInput({ setHistory, currentChatCharacter }) {
       type: "user",
       content: inputValue,
       createTime: formatted,
-      isBreak: isBreak.current,
+      isBreak: isBreak,
     };
     setHistory((preState) => [...preState, requestHistory]);
-    getResponse(isBreak);
+    getResponse();
     setInputValue("");
-    isJustSend.current = true;
+    setIsJustSend(true)
   };
 
   const handleKeyPress = (event) => {
