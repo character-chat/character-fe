@@ -6,6 +6,7 @@ import SideBar from "../components/SideBar";
 import Contact from "./MiddleBar/Contact";
 import MainBox from "./MainBox";
 import DefaultChatReminder from "../components/DefaultChatReminder";
+import CharacterSet from "./CharacterSet"
 import ToolColumn from "../components/ToolColumn";
 
 import styled from "styled-components";
@@ -134,34 +135,17 @@ export default function Home() {
       <div id="layout" className="theme-cyan">
         <SideBar />
         <Contact setCurrentChatCharacter={setCurrentChatCharacter} />
-        {currentChatCharacter === undefined ? (
+        <CharacterSet />
+        {/* {currentChatCharacter === undefined ? (
           <DefaultChatReminder />
         ) : (
           <MainBox currentChatCharacter={currentChatCharacter} />
-        )}
+        )} */}
+
         <ToolColumn />
       </div>
 
-      {/* <script src="assets/vendor/jquery/jquery-3.5.1.min.js" type="67ae01ba4dd2a59f70ab9427-text/javascript"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" type="67ae01ba4dd2a59f70ab9427-text/javascript"></script>
-
-<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="67ae01ba4dd2a59f70ab9427-text/javascript"></script>
-
-<script src="assets/js/template.js" type="67ae01ba4dd2a59f70ab9427-text/javascript"></script> */}
-
-      {/* <script type="67ae01ba4dd2a59f70ab9427-text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/5e0463c727773e0d832ab358/default';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script> */}
-
-      {/* <script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="67ae01ba4dd2a59f70ab9427-|49" defer=""></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"r":1,"version":"2021.2.0","rayId":"6203529a7c4f3684","si":10}'></script> */}
+      
     </div>
   );
 }
