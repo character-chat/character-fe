@@ -6,7 +6,7 @@ function CharacterSet(props) {
   const [name, setName] = useState("cxc");
   const [avatar, setAvatar] = useState("");
   const [api, setApi] = useState("www.sss");
-  const [introduction, setIntroduction] = useState("fasdfasfafadsfas");
+  const [introduction, setIntroduction] = useState("i am ...");
   const [dataset, setDataset] = useState();
   const [avatarImg, setAvatarImg] = useState();
 
@@ -22,32 +22,49 @@ function CharacterSet(props) {
       });
   }, []);
 
-  const avatarChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setAvatar(file);
-      setAvatarImg(reader.result);
-    };
-
-    reader.readAsDataURL(file);
-  };
-
   const submitHandler = (event) => {
     event.preventDefault();
-
     const formData = new FormData();
-
     formData.append("name", name);
     formData.append("avatar", avatar);
     formData.append("api", api);
     formData.append("introduction", introduction);
-
+    formData.append("dataset", dataset);
     axios
       .post("http://localhost:8080/api/v1/character", formData)
       .then((response) => console.log(response.data))
       .catch((error) => console.error(error));
+  };
+
+  const nameChangeHandler=(event)=>{
+    setName(event.target.value)
+  }
+
+  const apiChangeHandler=(event)=>{
+    setApi(event.target.value)
+  }
+
+  const introductionChangeHandler=(event)=>{
+    setIntroduction(event.target.value)
+  }
+
+  const avatarChangeHandler = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatar(file);
+      setAvatarImg(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const dataSetChangeHandler = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setDataset(file);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -78,6 +95,7 @@ function CharacterSet(props) {
                               type="text"
                               class="form-control"
                               placeholder={name}
+                              onChange={nameChangeHandler}
                             />
                           </div>
                           <div class="form-group mb-3">
@@ -86,6 +104,7 @@ function CharacterSet(props) {
                               type="text"
                               class="form-control"
                               placeholder={api}
+                              onChange={apiChangeHandler}
                             />
                           </div>
                           <div class="form-group mb-3">
@@ -94,6 +113,7 @@ function CharacterSet(props) {
                               rows="4"
                               className="form-control"
                               placeholder={introduction}
+                              onChange={introductionChangeHandler}
                             ></textarea>
                           </div>
 
@@ -113,7 +133,7 @@ function CharacterSet(props) {
                                 <input
                                   type="file"
                                   className="form-control-file"
-                                  onChange={avatarChange}
+                                  onChange={avatarChangeHandler}
                                 />
                               </div>
                             </div>
@@ -134,7 +154,7 @@ function CharacterSet(props) {
                                 <input
                                   type="file"
                                   className="form-control-file"
-                                  onChange={avatarChange}
+                                  onChange={dataSetChangeHandler}
                                 />
                               </div>
                             </div>
