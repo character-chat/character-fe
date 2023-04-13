@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 
-function CharacterSet(props) {
+function CharacterSet({ currentChatCharacter }) {
+  const { id } = currentChatCharacter;
   const [name, setName] = useState("cxc");
   const [avatar, setAvatar] = useState("");
   const [api, setApi] = useState("www.sss");
@@ -12,13 +13,25 @@ function CharacterSet(props) {
 
   useEffect(() => {
     axios
-      .get(
-        "http://localhost:8080/api/v1/character?id=64369883adbd6279e8c55367",
-        { responseType: "blob" }
-      )
+      .get(`http://localhost:8080/api/v1/character?id=${id}`)
       .then((response) => {
-        const blobUrl = URL.createObjectURL(response.data);
-        setAvatarImg(blobUrl);
+        const character = response.data;
+        console.log(character)
+        setName(character.name);
+        setApi(character.api);
+        setIntroduction(character.introduction);
+        setAvatar(character.avatar);
+        setDataset(character.dataset);
+
+        console.log(character.avatar)
+
+        const base64Data = btoa(
+          new Uint8Array(character.avatar).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ''
+          )
+        )
+        setAvatarImg(base64Data);
       });
   }, []);
 
@@ -36,17 +49,17 @@ function CharacterSet(props) {
       .catch((error) => console.error(error));
   };
 
-  const nameChangeHandler=(event)=>{
-    setName(event.target.value)
-  }
+  const nameChangeHandler = (event) => {
+    setName(event.target.value);
+  };
 
-  const apiChangeHandler=(event)=>{
-    setApi(event.target.value)
-  }
+  const apiChangeHandler = (event) => {
+    setApi(event.target.value);
+  };
 
-  const introductionChangeHandler=(event)=>{
-    setIntroduction(event.target.value)
-  }
+  const introductionChangeHandler = (event) => {
+    setIntroduction(event.target.value);
+  };
 
   const avatarChangeHandler = (event) => {
     const file = event.target.files[0];
@@ -140,7 +153,7 @@ function CharacterSet(props) {
                             <div className="col-12">
                               <div className="form-group">
                                 <img
-                                  src={avatarImg}
+                                  src={`data:image/png;base64,${avatarImg}`}
                                   alt="ss"
                                   style={{ width: "100%", height: "70px" }}
                                 />
