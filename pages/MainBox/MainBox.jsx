@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 
 
-export const MainBox = ({currentChatCharacter , type}) => {
+export const MainBox = ({currentChatCharacter}) => {
   const {id, name,time, avatar} = currentChatCharacter
   const [history, setHistory] = useState([])
 

@@ -9,7 +9,7 @@ const SideBarContainer = styled.div`
   // -webkit-filter: blur(10px);
 `;
 
-export const SideBar = ({ mockData, setCurrentCharacter, reLoadHistory }) => {
+export const SideBar = () => {
   return (
     // <SideBarContainer>
     //     <CharacterBar mockData={mockData} setCurrentCharacter={setCurrentCharacter} reLoadHistory={reLoadHistory}/>

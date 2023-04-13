@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function ChatInput({ setHistory, currentChatCharacter }) {
   const { id } = currentChatCharacter;
   const [inputValue, setInputValue] = useState("");
   const [isBreak, setIsBreak] = useState(true);
   const [isJustSend, setIsJustSend] = useState(false);
+  const [file, setFile] = useState(null)
+  const fileInputRef = useRef(null);
+
 
   useEffect(() => {
     let timerId;
@@ -14,7 +17,7 @@ function ChatInput({ setHistory, currentChatCharacter }) {
       setIsBreak(false);
       timerId = setTimeout(() => {
         setIsBreak(true);
-        setIsJustSend(false)
+        setIsJustSend(false);
       }, 10000);
     }
 
@@ -23,19 +26,33 @@ function ChatInput({ setHistory, currentChatCharacter }) {
     };
   }, [isJustSend]);
 
-  const inputHandler = (event) => {
-    setInputValue(event.target.value);
-    console.log(inputValue);
+  const handleIconClick = () => {
+    fileInputRef.current.click();
   };
 
-  const getResponse = async function () {
-    const res = await axios.put(
-      `http://localhost:8080/api/v1/chat/user/1?characterId=${id}&content=${inputValue}&isBreak=${isBreak}`
-    );
-    const responseHistory = res.data;
-    responseHistory.map((responseHistoryItem) => {
-      setHistory((preState) => [...preState, responseHistoryItem]);
-    });
+  const handleFileChange = (e) => {
+    const currentFile = e.target.files[0];
+    setFile(currentFile)
+  };
+
+  const inputHandler = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const getResponse = () => {
+    const formData = new FormData();
+    formData.append("characterId", id);
+    formData.append("content", inputValue);
+    formData.append("isBreak", isBreak);
+    if(file){
+      formData.append('file', file);
+    }
+    axios.put('http://localhost:8080/api/v1/chat/user/1', formData).then((response)=>{
+      const responseHistory = response.data;
+      responseHistory.map((responseHistoryItem) => {
+        setHistory((preState) => [...preState, responseHistoryItem]);
+      });
+    })
   };
 
   const sendHandler = () => {
@@ -61,7 +78,7 @@ function ChatInput({ setHistory, currentChatCharacter }) {
     setHistory((preState) => [...preState, requestHistory]);
     getResponse();
     setInputValue("");
-    setIsJustSend(true)
+    setIsJustSend(true);
   };
 
   const handleKeyPress = (event) => {
@@ -110,11 +127,18 @@ function ChatInput({ setHistory, currentChatCharacter }) {
               </div>
               <div className="input-group-append">
                 <span className="input-group-text border-0">
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                  />
                   <button
                     className="btn btn-sm btn-link text-muted"
                     data-toggle="tooltip"
                     title="Attachment"
                     type="button"
+                    onClick={handleIconClick}
                   >
                     <i className="zmdi zmdi-attachment font-22"></i>
                   </button>
