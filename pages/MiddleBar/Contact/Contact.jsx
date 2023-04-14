@@ -10,7 +10,7 @@ export const Contact = ({setCurrentChatCharacter}) => {
         "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
     },
     {
-      id: 2,
+      id: '643804ce2271265d29022f38',
       name: "xiangcheng",
       time: "last 6 seconds",
       avatar:

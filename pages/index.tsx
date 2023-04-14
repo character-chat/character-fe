@@ -4,7 +4,7 @@ import MainBox from "./MainBox";
 import DefaultChatReminder from "../components/DefaultChatReminder";
 import CharacterSet from "./CharacterSet"
 import ToolColumn from "../components/ToolColumn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [currentChatCharacter, setCurrentChatCharacter] = useState();
