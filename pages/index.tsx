@@ -14,14 +14,14 @@ export default function Home() {
       <div id="layout" className="theme-cyan">
         <SideBar />
         <Contact setCurrentChatCharacter={setCurrentChatCharacter} />
-        {currentChatCharacter === undefined ? (
-          <DefaultChatReminder />
-        ) :(<CharacterSet currentChatCharacter={currentChatCharacter}/>)}
         {/* {currentChatCharacter === undefined ? (
+          <DefaultChatReminder />
+        ) :(<CharacterSet currentChatCharacter={currentChatCharacter}/>)} */}
+        {currentChatCharacter === undefined ? (
           <DefaultChatReminder />
         ) : (
           <MainBox currentChatCharacter={currentChatCharacter} />
-        )} */}
+        )}
         <ToolColumn />
       </div>
     </div>

@@ -4,6 +4,8 @@ import UserChatItemContent from './components/UserChatItemContent'
 function UserChatItem({chatHistory}) {
   const {historyId, createTime, content, isBreak} = chatHistory
 
+  const avatar = "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcRNug2nY7GDEG23c7HpAX6pWLWp3dfcQmTxGz50nGt_kAqGyAxoVPLw21v137iB7iAW"
+
   const time = createTime.split(' ')[1]
   return (
     <li className="d-flex message right">
@@ -13,6 +15,15 @@ function UserChatItem({chatHistory}) {
         </span>}
        <UserChatItemContent key={historyId} content={content}/>
       </div>
+      <br />
+      <div className="margin-left ps-2 mr-lg-11 me-2">
+        <img
+          className="avatar sm rounded-circle"
+          src={avatar}
+          alt="avatar"
+        />
+      </div>
+      
     </li>
   );
 }
