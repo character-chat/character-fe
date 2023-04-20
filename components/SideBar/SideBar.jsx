@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import styled from "styled-components";
 import CharacterBar from "./components/CharacterBar/CharacterBar";
 
@@ -9,7 +12,15 @@ const SideBarContainer = styled.div`
   // -webkit-filter: blur(10px);
 `;
 
-export const SideBar = () => {
+export const SideBar = ({setCurrentMiddleBar, setCurrentChatCharacter, setCurrentMainBox}) => {
+  const [activeButton, setActiveButton] = useState(null)
+
+  const clickHandler =(name)=>{
+    setCurrentMiddleBar(name)
+    setActiveButton(name)
+    setCurrentMainBox(name)
+  }
+
   return (
     // <SideBarContainer>
     //     <CharacterBar mockData={mockData} setCurrentCharacter={setCurrentCharacter} reLoadHistory={reLoadHistory}/>
@@ -37,10 +48,10 @@ export const SideBar = () => {
           />
         </a>
         <a
-          className="mb-xl-3 mb-md-2 nav-link"
+          className={`mb-xl-3 mb-md-2 nav-link ${activeButton === 'RecentChat' ? 'active' : ''}`}
           data-toggle="pill"
-          href="#nav-tab-chat"
-          role="tab"
+          role="button"
+          onClick={()=>{clickHandler('RecentChat')}}
         >
           <i className="zmdi zmdi-comment-alt"></i>
         </a>
@@ -53,10 +64,11 @@ export const SideBar = () => {
           <i className="zmdi zmdi-phone"></i>
         </a>
         <a
-          className="mb-xl-3 mb-md-2 nav-link active"
+          className={`mb-xl-3 mb-md-2 nav-link ${activeButton === 'Contact' ? 'active' : ''}`}
           data-toggle="pill"
-          href="#nav-tab-contact"
-          role="tab"
+          role="button"
+          onClick={()=>{clickHandler('Contact')}}
+          aria-pressed={activeButton === 'Contact'}
         >
           <i className="zmdi zmdi-account-circle"></i>
         </a>

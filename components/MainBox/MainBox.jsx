@@ -10,7 +10,7 @@ export const MainBox = ({currentChatCharacter}) => {
   const [history, setHistory] = useState([])
 
   const getHistory = async function() {
-    const res = await axios.get(`http://localhost:8080/api/v1/chat/user/1?characterId=${id}`)
+    const res = await axios.get(`http://localhost:8080/api/v1/chat/history/user/1?characterId=${id}`)
     const data = res.data
     setHistory(data)
   }

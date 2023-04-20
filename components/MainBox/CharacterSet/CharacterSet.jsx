@@ -23,7 +23,8 @@ function CharacterSet({ currentChatCharacter }) {
         setIntroduction(character.introduction);
         setAvatar(character.avatar);
         setDataset(character.dataset);
-        setAvatarImg(character.avatar);
+        const imageBase64 = "data:image/png;base64," + character.avatar;
+        setAvatarImg(imageBase64);
       });
   }, [id]);
 
