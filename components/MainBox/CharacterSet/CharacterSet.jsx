@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 
 function CharacterSet({ currentChatCharacter }) {
-  const { id } = currentChatCharacter;
+  const { characterId } = currentChatCharacter;
   const [name, setName] = useState();
   const [avatar, setAvatar] = useState();
   const [api, setApi] = useState();
@@ -14,8 +14,9 @@ function CharacterSet({ currentChatCharacter }) {
 
 
   useEffect(() => {
+    console.log(currentChatCharacter)
     axios
-      .get(`http://localhost:8080/api/v1/character?id=${id}`)
+      .get(`http://localhost:8080/api/v1/character?id=${characterId}`)
       .then((response) => {
         const character = response.data;
         setName(character.name);
@@ -26,7 +27,7 @@ function CharacterSet({ currentChatCharacter }) {
         const imageBase64 = "data:image/png;base64," + character.avatar;
         setAvatarImg(imageBase64);
       });
-  }, [id]);
+  }, [characterId]);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -37,7 +38,7 @@ function CharacterSet({ currentChatCharacter }) {
     formData.append("introduction", introduction);
     formData.append("dataset", dataset);
     axios
-      .put(`http://localhost:8080/api/v1/character/${id}`, formData)
+      .put(`http://localhost:8080/api/v1/character/${characterId}`, formData)
       .then((response) => console.log(response.data))
       .catch((error) => console.error(error));
   };

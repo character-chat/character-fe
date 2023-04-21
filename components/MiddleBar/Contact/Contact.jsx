@@ -3,14 +3,14 @@ import ContactItem from "./components/ContactItem";
 export const Contact = ({setCurrentChatCharacter}) => {
   const currentCharacterList = [
     {
-      id: 1,
+      characterId: 1,
       name: "Elon Musk",
       time: "last 6 seconds",
       avatar:
         "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
     },
     {
-      id: '643804ce2271265d29022f38',
+      characterId: '2',
       name: "xiangcheng",
       time: "last 6 seconds",
       avatar:

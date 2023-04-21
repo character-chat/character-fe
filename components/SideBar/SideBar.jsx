@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
+
 import { useState } from "react";
 import styled from "styled-components";
 import CharacterBar from "./components/CharacterBar/CharacterBar";
@@ -19,12 +18,10 @@ export const SideBar = ({setCurrentMiddleBar, setCurrentChatCharacter, setCurren
     setCurrentMiddleBar(name)
     setActiveButton(name)
     setCurrentMainBox(name)
+    setCurrentChatCharacter(undefined)
   }
 
   return (
-    // <SideBarContainer>
-    //     <CharacterBar mockData={mockData} setCurrentCharacter={setCurrentCharacter} reLoadHistory={reLoadHistory}/>
-    // </SideBarContainer>
     <div className="navigation navbar justify-content-center py-xl-4 py-md-3 py-0 px-3">
       <a href="index.html" title="Postman" className="brand">
         <img src="assets/images/chat.svg" width="46" height="46" />

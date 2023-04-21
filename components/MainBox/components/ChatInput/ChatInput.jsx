@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 
 function ChatInput({ setHistory, currentChatCharacter }) {
-  const { id } = currentChatCharacter;
+  const { characterId } = currentChatCharacter;
   const [inputValue, setInputValue] = useState("");
   const [isBreak, setIsBreak] = useState(true);
   const [isJustSend, setIsJustSend] = useState(false);
@@ -41,7 +41,7 @@ function ChatInput({ setHistory, currentChatCharacter }) {
 
   const getResponse = () => {
     const formData = new FormData();
-    formData.append("characterId", id);
+    formData.append("characterId", characterId);
     formData.append("content", inputValue);
     formData.append("isBreak", isBreak);
     if(file){

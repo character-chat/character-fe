@@ -6,13 +6,19 @@ import axios from 'axios';
 
 
 export const MainBox = ({currentChatCharacter}) => {
-  const {id, name,time, avatar} = currentChatCharacter
+  const {characterId, name, time, avatar} = currentChatCharacter
   const [history, setHistory] = useState([])
 
   const getHistory = async function() {
-    const res = await axios.get(`http://localhost:8080/api/v1/chat/history/user/1?characterId=${id}`)
-    const data = res.data
-    setHistory(data)
+    console.log(currentChatCharacter)
+    console.log(characterId)
+
+    const res = await axios.get(`http://localhost:8080/api/v1/chat/history/user/1?characterId=${characterId}`).then((resp)=>{
+      const data = resp.data
+      console.log(data)
+      setHistory(data)
+    })
+
   }
 
   useEffect(()=>{
