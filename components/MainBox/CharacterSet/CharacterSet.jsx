@@ -6,9 +6,11 @@ function CharacterSet({ currentChatCharacter }) {
   const { characterId } = currentChatCharacter;
   const [name, setName] = useState();
   const [avatar, setAvatar] = useState();
+  const [uploadAvatar, setUploadAvatar] = useState();
   const [api, setApi] = useState();
   const [introduction, setIntroduction] = useState();
   const [dataset, setDataset] = useState();
+  const [uploadDataset, setUploadDataset] = useState();
   const [avatarImg, setAvatarImg] = useState();
   const fileInputRef = useRef(null);
 
@@ -22,7 +24,6 @@ function CharacterSet({ currentChatCharacter }) {
         setName(character.name);
         setApi(character.api);
         setIntroduction(character.introduction);
-        setAvatar(character.avatar);
         setDataset(character.dataset);
         const imageBase64 = "data:image/png;base64," + character.avatar;
         setAvatarImg(imageBase64);
@@ -33,10 +34,14 @@ function CharacterSet({ currentChatCharacter }) {
     event.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("avatar", avatar);
     formData.append("api", api);
     formData.append("introduction", introduction);
-    formData.append("dataset", dataset);
+    if(uploadAvatar){
+      formData.append("avatar", uploadAvatar);
+    }
+    if(uploadDataset){
+      formData.append("dataset", uploadDataset);
+    }
     axios
       .put(`http://localhost:8080/api/v1/character/${characterId}`, formData)
       .then((response) => console.log(response.data))
@@ -59,7 +64,7 @@ function CharacterSet({ currentChatCharacter }) {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setAvatar(file);
+      setUploadAvatar(file);
       setAvatarImg(reader.result);
     };
     reader.readAsDataURL(file);

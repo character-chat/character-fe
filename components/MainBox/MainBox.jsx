@@ -7,6 +7,7 @@ import axios from 'axios';
 
 export const MainBox = ({currentChatCharacter}) => {
   const {characterId, name, time, avatar} = currentChatCharacter
+  const imageBase64 = "data:image/png;base64," + avatar;
   const [history, setHistory] = useState([])
 
   const getHistory = async function() {
@@ -28,8 +29,8 @@ export const MainBox = ({currentChatCharacter}) => {
   return (
     <div className="main px-xl-5 px-lg-4 px-3">
       <div className="chat-body">
-        <ChatHeader name={name} avatar={avatar} time={time}/>
-        <ChatContent chatHistoryArray={history} name={name} avatar={avatar}/>
+        <ChatHeader name={name} avatar={imageBase64} time={time}/>
+        <ChatContent chatHistoryArray={history} name={name} avatar={imageBase64}/>
         <ChatInput setHistory={setHistory} currentChatCharacter={currentChatCharacter}/>
       </div>
     </div>

@@ -9,7 +9,6 @@ function ChatInput({ setHistory, currentChatCharacter }) {
   const [file, setFile] = useState(null)
   const fileInputRef = useRef(null);
 
-
   useEffect(() => {
     let timerId;
 

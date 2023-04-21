@@ -94,7 +94,7 @@ export const RecentChat = ({ setCurrentChatCharacter }) => {
             </li>
 
             {ChatHistoryList.map((chathistory) => (
-              <li className="online" onClick={()=>{setCurrentChatCharacter(chathistory.character)}}>
+              <li className="online" onClick={()=>{setCurrentChatCharacter(chathistory.characterGetDto)}}>
                 <div className="hover_action">
                   <button type="button" className="btn btn-link text-info">
                     <i className="zmdi zmdi-eye"></i>
@@ -113,14 +113,14 @@ export const RecentChat = ({ setCurrentChatCharacter }) => {
                         <span className="status rounded-circle"></span>
                         <img
                           className="avatar rounded-circle"
-                          src={`data:image/png;base64, ${chathistory.character.avatar}`}
+                          src={`data:image/png;base64, ${chathistory.characterGetDto.avatar}`}
                           alt="avatar"
                         />
                       </div>
                       <div className="media-body overflow-hidden">
                         <div className="d-flex align-items-center mb-1">
                           <h6 className="text-truncate mb-0 me-auto">
-                            {chathistory.character.name}
+                            {chathistory.characterGetDto.name}
                           </h6>
                           <p className="small text-muted text-nowrap ms-4 mb-0">
                             {chathistory.history[0].createTime}
