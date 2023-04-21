@@ -7,6 +7,7 @@ function ChatInput({ setHistory, currentChatCharacter }) {
   const [isBreak, setIsBreak] = useState(true);
   const [isJustSend, setIsJustSend] = useState(false);
   const [file, setFile] = useState(null)
+  const [displayFile, setDisplayFile] = useState(null)
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -32,6 +33,13 @@ function ChatInput({ setHistory, currentChatCharacter }) {
   const handleFileChange = (e) => {
     const currentFile = e.target.files[0];
     setFile(currentFile)
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+      setDisplayFile(base64String)
+    };
+    reader.readAsDataURL(currentFile);
   };
 
   const inputHandler = (event) => {
@@ -71,6 +79,7 @@ function ChatInput({ setHistory, currentChatCharacter }) {
       sender: "cxc",
       type: "user",
       content: inputValue,
+      file: displayFile,
       createTime: formatted,
       isBreak: isBreak,
     };
