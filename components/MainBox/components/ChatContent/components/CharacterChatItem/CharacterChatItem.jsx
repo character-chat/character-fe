@@ -2,7 +2,7 @@ import React from "react";
 import CharacterChatItemContent from "./components/CharacterChatItemContent";
 
 function CharacterChatItem({name, avatar, chatHistory}) {
-  const {historyId, createTime, content, isBreak} = chatHistory
+  const {historyId, createTime, content, file, isBreak} = chatHistory
   const time = createTime.split(' ')[1]
   return (
     <li className="d-flex message">
