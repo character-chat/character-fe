@@ -26,3 +26,10 @@ export const updateHistory = (history) => {
     payload: history,
   };
 };
+
+export const deleteCharacter = (characterId) => {
+  return {
+    type: "DELETE_CHARACTER",
+    payload: characterId,
+  };
+};

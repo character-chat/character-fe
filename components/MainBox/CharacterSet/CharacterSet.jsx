@@ -1,8 +1,17 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
+import { connect } from "react-redux";
+import {
+  deleteCharacter,
+  updateCurrentChatCharacter,
+} from "../../../store/actions";
 
-function CharacterSet({ currentChatCharacter }) {
+function CharacterSet({
+  currentChatCharacter,
+  updateCurrentChatCharacter,
+  deleteCharacter,
+}) {
   const { characterId } = currentChatCharacter;
   const [name, setName] = useState();
   const [uploadAvatar, setUploadAvatar] = useState();
@@ -24,7 +33,7 @@ function CharacterSet({ currentChatCharacter }) {
         const imageBase64 = "data:image/png;base64," + character.avatar;
         setAvatarImg(imageBase64);
       });
-  }, [characterId]);
+  }, [currentChatCharacter]);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -32,10 +41,10 @@ function CharacterSet({ currentChatCharacter }) {
     formData.append("name", name);
     formData.append("api", api);
     formData.append("introduction", introduction);
-    if(uploadAvatar){
+    if (uploadAvatar) {
       formData.append("avatar", uploadAvatar);
     }
-    if(uploadDataset){
+    if (uploadDataset) {
       formData.append("dataset", uploadDataset);
     }
     axios
@@ -108,10 +117,10 @@ function CharacterSet({ currentChatCharacter }) {
                               onChange={avatarChangeHandler}
                             />
                             <img
-                                  src={avatarImg}
-                                  alt="ss"
-                                  style={{ width: "100%", height: "100%" }}
-                                />
+                              src={avatarImg}
+                              alt="ss"
+                              style={{ width: "100%", height: "100%" }}
+                            />
                             <button
                               type="button"
                               class="btn btn-secondary btn-sm"
@@ -191,7 +200,15 @@ function CharacterSet({ currentChatCharacter }) {
                   </p>
                 </div>
                 <div className="col-auto">
-                  <button className="btn btn-danger">Delete</button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      deleteCharacter(characterId);
+                      updateCurrentChatCharacter(undefined);
+                    }}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
@@ -202,4 +219,13 @@ function CharacterSet({ currentChatCharacter }) {
   );
 }
 
-export default CharacterSet;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = {
+  deleteCharacter,
+  updateCurrentChatCharacter,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CharacterSet);

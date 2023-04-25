@@ -45,6 +45,11 @@ const reducer = (state = initialState, action: any) => {
         ...state,
         history: action.payload,
       };
+    case "DELETE_CHARACTER":
+      return {
+        ...state,
+        currentCharacterList: state.currentCharacterList.filter(currentCharacter => currentCharacter.characterId !== action.payload)
+      };
     default:
       return state;
   }
