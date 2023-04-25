@@ -1,14 +1,19 @@
 import ChatHeader from './components/ChatHeader'
 import ChatContent from './components/ChatContent'
 import ChatInput from './components/ChatInput'
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from 'axios';
+import { connect } from 'react-redux';
+import {updateHistory} from "../../store/actions";
 
 
-export const MainBox = ({currentChatCharacter}) => {
+const MainBox = ({currentChatCharacter, history, updateHistory}) => {
   const {characterId, name, time, avatar} = currentChatCharacter
   const imageBase64 = "data:image/png;base64," + avatar;
-  const [history, setHistory] = useState([])
+  
+  const setHistory=(event)=>{
+    updateHistory(event)
+  }
 
   const getHistory = async function() {
     const res = await axios.get(`http://localhost:8080/api/v1/chat/history/user/1?characterId=${characterId}`)
@@ -32,4 +37,15 @@ export const MainBox = ({currentChatCharacter}) => {
   );
 };
 
-export default MainBox;
+const mapStateToProps = (state) => {
+  return {
+    currentChatCharacter: state.currentChatCharacter,
+    history: state.history
+  };
+};
+
+const mapDispatchToProps = {
+  updateHistory,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainBox);

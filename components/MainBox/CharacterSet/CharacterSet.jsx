@@ -5,18 +5,14 @@ import { useEffect } from "react";
 function CharacterSet({ currentChatCharacter }) {
   const { characterId } = currentChatCharacter;
   const [name, setName] = useState();
-  const [avatar, setAvatar] = useState();
   const [uploadAvatar, setUploadAvatar] = useState();
   const [api, setApi] = useState();
   const [introduction, setIntroduction] = useState();
-  const [dataset, setDataset] = useState();
   const [uploadDataset, setUploadDataset] = useState();
   const [avatarImg, setAvatarImg] = useState();
   const fileInputRef = useRef(null);
 
-
   useEffect(() => {
-    console.log(currentChatCharacter)
     axios
       .get(`http://localhost:8080/api/v1/character?id=${characterId}`)
       .then((response) => {
@@ -24,7 +20,7 @@ function CharacterSet({ currentChatCharacter }) {
         setName(character.name);
         setApi(character.api);
         setIntroduction(character.introduction);
-        setDataset(character.dataset);
+        setUploadDataset(character.dataset);
         const imageBase64 = "data:image/png;base64," + character.avatar;
         setAvatarImg(imageBase64);
       });
@@ -74,7 +70,7 @@ function CharacterSet({ currentChatCharacter }) {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setDataset(file);
+      setUploadDataset(file);
     };
     reader.readAsDataURL(file);
   };
@@ -82,7 +78,6 @@ function CharacterSet({ currentChatCharacter }) {
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
-
 
   return (
     <div className="main px-xl-5 px-lg-4 px-3">

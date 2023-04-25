@@ -1,16 +1,36 @@
-
 import { useState } from "react";
-import styled from "styled-components";
+import { connect } from "react-redux";
+import {
+  updateCurrentChatCharacter,
+  updateCurrentMiddleBar,
+  updateCurrentMainBox,
+} from "../../store/actions";
 
-export const SideBar = ({setCurrentMiddleBar, setCurrentChatCharacter, setCurrentMainBox}) => {
-  const [activeButton, setActiveButton] = useState(null)
+const SideBar = ({
+  updateCurrentChatCharacter,
+  updateCurrentMiddleBar,
+  updateCurrentMainBox,
+}) => {
+  const [activeButton, setActiveButton] = useState(null);
 
-  const clickHandler =(name)=>{
-    setCurrentMiddleBar(name)
-    setActiveButton(name)
-    setCurrentMainBox(name)
-    setCurrentChatCharacter(undefined)
-  }
+  const setCurrentChatCharacter = (event) => {
+    updateCurrentChatCharacter(event);
+  };
+
+  const setCurrentMiddleBar = (event) => {
+    updateCurrentMiddleBar(event);
+  };
+
+  const setCurrentMainBox = (event) => {
+    updateCurrentMainBox(event);
+  };
+
+  const clickHandler = (name) => {
+    setCurrentMiddleBar(name);
+    setActiveButton(name);
+    setCurrentMainBox(name);
+    setCurrentChatCharacter(undefined);
+  };
 
   return (
     <div className="navigation navbar justify-content-center py-xl-4 py-md-3 py-0 px-3">
@@ -36,10 +56,14 @@ export const SideBar = ({setCurrentMiddleBar, setCurrentChatCharacter, setCurren
           />
         </a>
         <a
-          className={`mb-xl-3 mb-md-2 nav-link ${activeButton === 'RecentChat' ? 'active' : ''}`}
+          className={`mb-xl-3 mb-md-2 nav-link ${
+            activeButton === "RecentChat" ? "active" : ""
+          }`}
           data-toggle="pill"
           role="button"
-          onClick={()=>{clickHandler('RecentChat')}}
+          onClick={() => {
+            clickHandler("RecentChat");
+          }}
         >
           <i className="zmdi zmdi-comment-alt"></i>
         </a>
@@ -52,11 +76,15 @@ export const SideBar = ({setCurrentMiddleBar, setCurrentChatCharacter, setCurren
           <i className="zmdi zmdi-phone"></i>
         </a>
         <a
-          className={`mb-xl-3 mb-md-2 nav-link ${activeButton === 'Contact' ? 'active' : ''}`}
+          className={`mb-xl-3 mb-md-2 nav-link ${
+            activeButton === "Contact" ? "active" : ""
+          }`}
           data-toggle="pill"
           role="button"
-          onClick={()=>{clickHandler('Contact')}}
-          aria-pressed={activeButton === 'Contact'}
+          onClick={() => {
+            clickHandler("Contact");
+          }}
+          aria-pressed={activeButton === "Contact"}
         >
           <i className="zmdi zmdi-account-circle"></i>
         </a>
@@ -98,4 +126,14 @@ export const SideBar = ({setCurrentMiddleBar, setCurrentChatCharacter, setCurren
   );
 };
 
-export default SideBar;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = {
+  updateCurrentChatCharacter,
+  updateCurrentMiddleBar,
+  updateCurrentMainBox,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

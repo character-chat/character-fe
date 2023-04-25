@@ -6,22 +6,16 @@ import MainBox from "../components/MainBox";
 import DefaultChatReminder from "../components/DefaultChatReminder";
 import CharacterSet from "../components/MainBox/CharacterSet"
 import ToolColumn from "../components/ToolColumn";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import dynamic from 'next/dynamic'
+import { connect } from 'react-redux';
 
-
-export default function Home() {
-  const [currentChatCharacter, setCurrentChatCharacter] = useState();
-  const [currentMiddleBar, setCurrentMiddleBar] = useState('');
-  const [currentMainBox, setCurrentMainBox] = useState('');
+function Home({currentChatCharacter, currentMiddleBar, currentMainBox,}) {
 
   const currentMiddleBarContent = () => {
     switch (currentMiddleBar) {
       case 'RecentChat':
-        return <RecentChat setCurrentChatCharacter={setCurrentChatCharacter}/>
+        return <RecentChat />
       default:
-        return <Contact setCurrentChatCharacter={setCurrentChatCharacter}/>
+        return <Contact />
     }
   }
 
@@ -43,7 +37,7 @@ export default function Home() {
   return (
     <div className="App">
       <div id="layout" className="theme-cyan">
-        <SideBar setCurrentMiddleBar={setCurrentMiddleBar} setCurrentChatCharacter={setCurrentChatCharacter} setCurrentMainBox={setCurrentMainBox}/>
+        <SideBar />
         {currentMiddleBarContent()}
         {currentMainBoxContent()}
         <ToolColumn />
@@ -51,3 +45,16 @@ export default function Home() {
     </div>
   );
 }
+      
+const mapStateToProps = (state) => {
+  return {
+    currentChatCharacter: state.currentChatCharacter,
+    currentMiddleBar: state.currentMiddleBar,
+    currentMainBox: state.currentMainBox
+  };
+};
+
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

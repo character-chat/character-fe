@@ -1,16 +1,22 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { updateCurrentChatCharacter } from "../../../store/actions";
 
-export const RecentChat = ({ setCurrentChatCharacter }) => {
+const RecentChat = ({ updateCurrentChatCharacter }) => {
   const [ChatHistoryList, setChatHistoryList] = useState([]);
+
+  const setCurrentChatCharacter = (event) => {
+    updateCurrentChatCharacter(event);
+  };
 
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/v1/chat/chatHistory/user/1`)
       .then((response) => {
         const chatHistory = response.data;
-        console.log(chatHistory)
-        setChatHistoryList(chatHistory)
+        console.log(chatHistory);
+        setChatHistoryList(chatHistory);
       });
   }, []);
 
@@ -94,7 +100,12 @@ export const RecentChat = ({ setCurrentChatCharacter }) => {
             </li>
 
             {ChatHistoryList.map((chathistory) => (
-              <li className="online" onClick={()=>{setCurrentChatCharacter(chathistory.characterGetDto)}}>
+              <li
+                className="online"
+                onClick={() => {
+                  setCurrentChatCharacter(chathistory.characterGetDto);
+                }}
+              >
                 <div className="hover_action">
                   <button type="button" className="btn btn-link text-info">
                     <i className="zmdi zmdi-eye"></i>
@@ -142,4 +153,14 @@ export const RecentChat = ({ setCurrentChatCharacter }) => {
   );
 };
 
-export default RecentChat;
+const mapStateToProps = (state) => {
+  return {
+    currentChatCharacter: state.currentChatCharacter,
+  };
+};
+
+const mapDispatchToProps = {
+  updateCurrentChatCharacter,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecentChat);

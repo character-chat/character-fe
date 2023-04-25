@@ -1,7 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
+import { updateCurrentChatCharacter } from "../../../../../store/actions";
 
-function ContactItem({ currentCharacter, setCurrentChatCharacter }) {
+function ContactItem({ currentCharacter, updateCurrentChatCharacter }) {
   const {  name, time, avatar } = currentCharacter;
+
+  const setCurrentChatCharacter = (event) => {
+    updateCurrentChatCharacter(event);
+  };
+
   return (
     <li>
       <div className="hover_action">
@@ -38,4 +45,13 @@ function ContactItem({ currentCharacter, setCurrentChatCharacter }) {
   );
 }
 
-export default ContactItem;
+const mapStateToProps = (state) => {
+  return {
+  };
+};
+
+const mapDispatchToProps = {
+  updateCurrentChatCharacter,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);

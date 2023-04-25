@@ -1,22 +1,9 @@
 import ContactItem from "./components/ContactItem";
+import { connect } from "react-redux";
+import { updateCurrentChatCharacter } from "../../../store/actions";
 
-export const Contact = ({setCurrentChatCharacter}) => {
-  const currentCharacterList = [
-    {
-      characterId: 1,
-      name: "Elon Musk",
-      time: "last 6 seconds",
-      avatar:
-        "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
-    },
-    {
-      characterId: '2',
-      name: "xiangcheng",
-      time: "last 6 seconds",
-      avatar:
-        "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcRNug2nY7GDEG23c7HpAX6pWLWp3dfcQmTxGz50nGt_kAqGyAxoVPLw21v137iB7iAW",
-    },
-  ];
+const Contact = ({ currentCharacterList }) => {
+
   return (
     <div className="sidebar border-end py-xl-4 py-3 px-xl-4 px-3">
       <div className="tab-content">
@@ -53,7 +40,6 @@ export const Contact = ({setCurrentChatCharacter}) => {
               <ContactItem
                 key={currentCha.id}
                 currentCharacter={currentCha}
-                setCurrentChatCharacter={setCurrentChatCharacter}
               />
             ))}
           </ul>
@@ -63,4 +49,14 @@ export const Contact = ({setCurrentChatCharacter}) => {
   );
 };
 
-export default Contact;
+const mapStateToProps = (state) => {
+  return {
+    currentCharacterList: state.currentCharacterList,
+  };
+};
+
+const mapDispatchToProps = {
+  updateCurrentChatCharacter,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contact);
