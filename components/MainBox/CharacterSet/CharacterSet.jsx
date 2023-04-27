@@ -88,6 +88,11 @@ function CharacterSet({
     fileInputRef.current.click();
   };
 
+  const deleteHandler = ()=>{
+    axios.delete(`http://localhost:8080/api/v1/character/characterId=${characterId}`)
+    deleteCharacter(characterId);
+    updateCurrentChatCharacter(undefined);
+  }
   return (
     <div className="main px-xl-5 px-lg-4 px-3">
       <div className="body-page d-flex py-xl-3 py-2">
@@ -202,10 +207,7 @@ function CharacterSet({
                 <div className="col-auto">
                   <button
                     className="btn btn-danger"
-                    onClick={() => {
-                      deleteCharacter(characterId);
-                      updateCurrentChatCharacter(undefined);
-                    }}
+                    onClick={deleteHandler}
                   >
                     Delete
                   </button>
