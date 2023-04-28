@@ -7,7 +7,7 @@ export const DefaultChatReminder = () => {
             <div className="avatar lg avatar-bg me-auto ms-auto mb-5">
               <img
                 className="avatar lg rounded-circle border"
-                src="assets/images/user.png"
+                src="assets/chat/images/user.png"
                 alt=""
               />
               <span className="a-bg-1"></span>

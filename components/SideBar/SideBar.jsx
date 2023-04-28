@@ -6,6 +6,7 @@ import {
   updateCurrentMainBox,
 } from "../../store/actions";
 
+
 const SideBar = ({
   updateCurrentChatCharacter,
   updateCurrentMiddleBar,
@@ -35,7 +36,7 @@ const SideBar = ({
   return (
     <div className="navigation navbar justify-content-center py-xl-4 py-md-3 py-0 px-3">
       <a href="index.html" title="Postman" className="brand">
-        <img src="assets/images/chat.svg" width="46" height="46" />
+        <img src="assets/chat/images/chat.svg" width="46" height="46" />
       </a>
 
       <div
@@ -50,7 +51,7 @@ const SideBar = ({
           role="tab"
         >
           <img
-            src="assets/images/user.png"
+            src="assets/chat/images/user.png"
             className="avatar sm rounded-circle"
             alt="user avatar"
           />
