@@ -10013,11 +10013,11 @@ body.admin .main-body .body-page::-webkit-scrollbar-thumb {
   /* background-color: var(--sidebar-bg); */
   /* background: linear-gradient(0deg, rgba(144,18,149,1) 0%, rgba(6,162,209,1) 100%); */
   /* background: linear-gradient(0deg, rgba(83,18,149,1) 0%, rgba(6,162,209,1) 100%); */
-  background: linear-gradient(0deg, rgba(149,107,191,1) 0%, rgba(6,162,209,1) 100%); 
-  /* background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%); yellow */
-  /* background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); red */
-  /* background: linear-gradient(0deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); railbow */
-  /* background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); gray */
+  background: linear-gradient(0deg, rgba(149,107,191,60%) 30%, rgba(6,162,209,60%) 80%); 
+  /* background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);  */
+  /* background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);  */
+  /* background: linear-gradient(0deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);  */
+  /* background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);  */
   border-right: 1px solid var(--white-color);
   display: -webkit-box;
   display: -ms-flexbox;
