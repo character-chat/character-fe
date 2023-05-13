@@ -3898,7 +3898,7 @@ fieldset:disabled .btn {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  /* border: 1px solid rgba(0, 0, 0, 0.125); */
   border-radius: 0.25rem;
 }
 .card > hr {
@@ -9813,7 +9813,7 @@ body.admin .main-body .body-page::-webkit-scrollbar-thumb {
   border-color: var(--border-color);
 }
 .chat-list .card .card-body {
-  padding: 16px;
+  padding: 8px 1px;
 }
 .chat-list .card .card-body h6,
 .chat-list .card .card-body .h6 {
