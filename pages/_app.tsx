@@ -2,7 +2,7 @@ import '../public/css/chat/css/chat.css'
 // import '../public/css/index/css/bootstrap.css'
 // import '../public/css/index/css/bootstrap-theme.css'
 // import '../public/css/index/css/slippry.css'
-import '../public/css/index/assets/css/style.css'
+// import '../public/css/index/assets/css/style.css'
 
 
 
