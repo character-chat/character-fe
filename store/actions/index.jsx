@@ -33,3 +33,24 @@ export const deleteCharacter = (characterId) => {
     payload: characterId,
   };
 };
+
+export const updateCurrentArticle = (currentArticle)=>{
+  return {
+    type: "SET_CURRENT_ARTICLE",
+    currentArticle: currentArticle
+  }
+}
+
+export const updateArticleList = ((articleList)=>{
+  return {
+    type: "SET_ARTICLE_LIST",
+    articleList: articleList
+  }
+})
+
+export const addArticleList = ((article)=>{
+  return {
+    type: "ADD_ARTICLE",
+    article: article
+  }
+})

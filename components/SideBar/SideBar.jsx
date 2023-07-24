@@ -68,14 +68,14 @@ const SideBar = ({
         >
           <i className="zmdi zmdi-comment-alt"></i>
         </a>
-        <a
+        {/* <a
           className="mb-xl-3 mb-md-2 nav-link"
           data-toggle="pill"
           href="#nav-tab-phone"
           role="tab"
         >
           <i className="zmdi zmdi-phone"></i>
-        </a>
+        </a> */}
         <a
           className={`mb-xl-3 mb-md-2 nav-link ${
             activeButton === "Contact" ? "active" : ""
@@ -90,10 +90,15 @@ const SideBar = ({
           <i className="zmdi zmdi-account-circle"></i>
         </a>
         <a
-          className="mb-xl-3 mb-md-2 nav-link d-none d-sm-block"
+          className={`mb-xl-3 mb-md-2 nav-link d-none d-sm-block ${
+            activeButton === "Doc" ? "active" : ""
+          }`}
           data-toggle="pill"
           href="#nav-tab-pages"
           role="tab"
+          onClick={() => {
+            clickHandler("Article");
+          }}
         >
           <i className="zmdi zmdi-layers"></i>
         </a>

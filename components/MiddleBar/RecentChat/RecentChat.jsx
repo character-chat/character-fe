@@ -15,7 +15,6 @@ const RecentChat = ({ updateCurrentChatCharacter }) => {
       .get(`http://localhost:8080/api/v1/chat/chatHistory/user/1`)
       .then((response) => {
         const chatHistory = response.data;
-        console.log(chatHistory);
         setChatHistoryList(chatHistory);
       });
   }, []);

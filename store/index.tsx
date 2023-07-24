@@ -21,6 +21,18 @@ const initialState = {
     },
   ],
   history: [],
+  currentArticle: {
+    id: "",
+    title: "",
+    content: "",
+    tag: []
+  },
+  articleList :[
+    {id: 1, title: "一文带你读懂ChatGPT", content: "chatGPT是发发发发散发的发烧发顺丰的方法啊短发打分 啊的身份暗示法啊发a", tag:"tech", link:"www"},
+    {id: 2, title: "什么是Transform模型?", content: "transfom法师打发发烧发烧发烧发顺丰", tag:"tech", link:"www"},
+    {id: 3, title: "雷军发布小米汽车", content: "近日，小米集团总裁雷军发布消息称fadfadsfasfasfs", tag:"news", link:"www"},
+    {id: 4, title: "iphone20预览", content: "iphone20预览啊沙发沙发上", tag:"news", link:"www"},
+  ]
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -50,6 +62,21 @@ const reducer = (state = initialState, action: any) => {
         ...state,
         currentCharacterList: state.currentCharacterList.filter(currentCharacter => currentCharacter.characterId !== action.payload)
       };
+    case "SET_CURRENT_ARTICLE":
+      return {
+        ...state,
+        currentArticle: action.currentArticle
+      }
+    case "SET_ARTICLE_LIST":
+      return {
+        ...state,
+        articleList: action.articleList
+      }
+    case "ADD_ARTICLE":
+      return {
+        ...state,
+        articleList: [...state.articleList,action.article]
+      }
     default:
       return state;
   }

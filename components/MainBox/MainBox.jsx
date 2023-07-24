@@ -18,7 +18,6 @@ const MainBox = ({currentChatCharacter, history, updateHistory}) => {
   const getHistory = async function() {
     const res = await axios.get(`http://localhost:8080/api/v1/chat/history/user/1?characterId=${characterId}`)
     const data = res.data
-    console.log(data)
     setHistory(data)
   }
 
