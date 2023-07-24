@@ -40,6 +40,7 @@ const Article = ({currentArticle,updateCurrentArticle,addArticleList}) => {
           link:articleLink
         }
         updateCurrentArticle(article)    
+        addArticleList(article)
       })
       .catch((error) => {
         const article = {
