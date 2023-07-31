@@ -3,21 +3,21 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { updateCurrentChatCharacter } from "../../../store/actions";
 
-const RecentChat = ({ updateCurrentChatCharacter }) => {
-  const [ChatHistoryList, setChatHistoryList] = useState([]);
+const RecentChat = ({ updateCurrentChatCharacter, currentChatList}) => {
 
   const setCurrentChatCharacter = (event) => {
     updateCurrentChatCharacter(event);
   };
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/v1/chat/chatHistory/user/1`)
-      .then((response) => {
-        const chatHistory = response.data;
-        setChatHistoryList(chatHistory);
-      });
-  }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:8080/api/v1/chat/chatHistory/user/1`)
+  //     .then((response) => {
+  //       const chatHistory = response.data;
+  //       setChatHistoryList(chatHistory);
+  //     });
+  // }, []);
 
   return (
     <div className="sidebar border-end py-xl-4 py-3 px-xl-4 px-3">
@@ -98,7 +98,7 @@ const RecentChat = ({ updateCurrentChatCharacter }) => {
               </a>
             </li>
 
-            {ChatHistoryList.map((chathistory) => (
+            {currentChatList.map((chathistory) => (
               <li
                 className="online"
                 onClick={() => {
@@ -119,25 +119,34 @@ const RecentChat = ({ updateCurrentChatCharacter }) => {
                 <a href="#" className="card">
                   <div className="card-body">
                     <div className="media">
-                      <div className="avatar me-3">
+                      {/* <div className="avatar me-3">
                         <span className="status rounded-circle"></span>
                         <img
                           className="avatar rounded-circle"
                           src={`data:image/png;base64, ${chathistory.characterGetDto.avatar}`}
                           alt="avatar"
                         />
+                      </div> */}
+
+                      <div className="avatar me-3">
+                      <div className="avatar rounded-circle no-image bg-info text-light">
+                        <span>
+                          <i className="zmdi zmdi-account"></i>
+                        </span>
                       </div>
+                    </div>
+                      
                       <div className="media-body overflow-hidden">
                         <div className="d-flex align-items-center mb-1">
                           <h6 className="text-truncate mb-0 me-auto">
                             {chathistory.characterGetDto.name}
                           </h6>
                           <p className="small text-muted text-nowrap ms-4 mb-0">
-                            {chathistory.history[0].createTime}
+                            {chathistory?.history[0]?.createTime}
                           </p>
                         </div>
                         <div className="text-truncate">
-                          {chathistory.history[0].content}
+                          {chathistory?.history[0]?.content}
                         </div>
                       </div>
                     </div>
@@ -155,6 +164,7 @@ const RecentChat = ({ updateCurrentChatCharacter }) => {
 const mapStateToProps = (state) => {
   return {
     currentChatCharacter: state.currentChatCharacter,
+    currentChatList: state.currentChatList
   };
 };
 

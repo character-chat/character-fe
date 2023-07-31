@@ -54,3 +54,17 @@ export const addArticleList = ((article)=>{
     article: article
   }
 })
+
+export const updateCurrentChatList = (currentChatList)=>{
+  return {
+    type: "SET_CURRENT_CHAT_LIST",
+    currentChatList: currentChatList
+  }
+}
+
+export const addChatList = (currentChat)=>{
+  return {
+    type: "ADD_CHAT_TO_CURRENT_CHAT_LIST",
+    currentChat: currentChat
+  }
+}
