@@ -1,5 +1,3 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { updateCurrentChatCharacter } from "../../../store/actions";
 
@@ -8,16 +6,6 @@ const RecentChat = ({ updateCurrentChatCharacter, currentChatList}) => {
   const setCurrentChatCharacter = (event) => {
     updateCurrentChatCharacter(event);
   };
-
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8080/api/v1/chat/chatHistory/user/1`)
-  //     .then((response) => {
-  //       const chatHistory = response.data;
-  //       setChatHistoryList(chatHistory);
-  //     });
-  // }, []);
 
   return (
     <div className="sidebar border-end py-xl-4 py-3 px-xl-4 px-3">
@@ -100,6 +88,7 @@ const RecentChat = ({ updateCurrentChatCharacter, currentChatList}) => {
 
             {currentChatList.map((chathistory) => (
               <li
+                key={chathistory.characterGetDto.id}
                 className="online"
                 onClick={() => {
                   setCurrentChatCharacter(chathistory.characterGetDto);
@@ -119,14 +108,6 @@ const RecentChat = ({ updateCurrentChatCharacter, currentChatList}) => {
                 <a href="#" className="card">
                   <div className="card-body">
                     <div className="media">
-                      {/* <div className="avatar me-3">
-                        <span className="status rounded-circle"></span>
-                        <img
-                          className="avatar rounded-circle"
-                          src={`data:image/png;base64, ${chathistory.characterGetDto.avatar}`}
-                          alt="avatar"
-                        />
-                      </div> */}
 
                       <div className="avatar me-3">
                       <div className="avatar rounded-circle no-image bg-info text-light">

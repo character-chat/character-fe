@@ -1,5 +1,6 @@
+import axios from "axios";
 import React from "react";
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import {addChatList} from "../../../../../store/actions";
 import {updateCurrentMiddleBar} from "../../../../../store/actions";
@@ -8,15 +9,19 @@ import {updateCurrentChatCharacter} from "../../../../../store/actions";
 
 
 function Header({article, addChatList,updateCurrentMiddleBar,updateCurrentMainBox,updateCurrentChatCharacter}) {
-  const currentChat = {characterGetDto:{characterId:1,name:article.title,avatar:''},history:[]};
+  const currentChat = {characterGetDto:{characterId:article.articleId,name:article.title,avatar:''},history:[]};
   const  currentCharacter =
   {
-    characterId: 1,
+    characterId: article.articleId,
     name: article.title,
     time: "last 6 seconds",
     avatar:
-      "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
+      "",
   }
+  const initialChat = (async ()=>{
+    await axios.post(`http://localhost:8080/api/v1/chat/user/${currentCharacter.characterId}`);
+  })
+
   return (
     <div className="chat-header border-bottom py-xl-4 py-md-3 py-2">
       <div className="container-xxl">
@@ -37,7 +42,7 @@ function Header({article, addChatList,updateCurrentMiddleBar,updateCurrentMainBo
                   <i className="zmdi zmdi-account-add zmdi-hc-lg"></i>
                 </a>
               </li>
-              <Button className="rounded" onClick={()=>{addChatList(currentChat);updateCurrentMiddleBar('RecentChat');updateCurrentMainBox('RecentChat');updateCurrentChatCharacter(currentCharacter)}}>Chat</Button>
+              <Button className="rounded" onClick={()=>{addChatList(currentChat);updateCurrentMiddleBar('RecentChat');updateCurrentMainBox('RecentChat');updateCurrentChatCharacter(currentCharacter),initialChat()}}>Chat</Button>
             </ul>
           </div>
         </div>

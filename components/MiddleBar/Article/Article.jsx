@@ -1,21 +1,38 @@
+import {useEffect} from "react";
 import TagItem from "./components/TagItem";
 import { connect } from "react-redux";
 import { updateCurrentArticle } from "../../../store/actions";
 import { addArticleList } from "../../../store/actions";
+import { updateArticleList } from "../../../store/actions";
 import { useState } from "react";
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { ButtonGroup, Button } from "react-bootstrap";
+import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 
-const Article = ({currentArticle,updateCurrentArticle,addArticleList}) => {
-  const [articleLink, setArticleLink] = useState("")
-  const [tag,setTag] = useState("")
-  const [content,setContent] = useState('')
-  const [title, setTitle] = useState('')
 
-  const handleChange = (event)=>{
-    setArticleLink(event.target.value)
-  }
+const Article = ({ updateCurrentArticle, addArticleList,updateArticleList }) => {
+  const [articleLink, setArticleLink] = useState("");
+  const [tag, setTag] = useState("");
 
-  const handleAddArticle = ()=>{
+  const handleChange = (event) => {
+    setArticleLink(event.target.value);
+  };
+
+  const saveArticle = async (article) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/v1/article`,
+        article
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const handleAddArticle = () => {
+    const newUUID = uuidv4();
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     var urlencoded = new URLSearchParams();
@@ -31,32 +48,50 @@ const Article = ({currentArticle,updateCurrentArticle,addArticleList}) => {
     fetch("https://api.gugudata.com/news/fetchcontent", requestOptions)
       .then((response) => response.text())
       .then((result) => {
-        const resultObject = JSON.parse(result)
+        const resultObject = JSON.parse(result);
         const article = {
-          id:1,
-          title:resultObject.Data.Title,
-          content:resultObject.Data.Content,
-          tag:tag,
-          link:articleLink
-        }
-        updateCurrentArticle(article)    
-        addArticleList(article)
+          articleId: newUUID,
+          title: resultObject.Data.Title,
+          content: resultObject.Data.Content,
+          createTime: "",
+          tag: tag,
+          link: articleLink,
+        };
+        saveArticle(article);
+        updateCurrentArticle(article);
+        addArticleList(article);
       })
-      .catch((error) => {
+      .catch(() => {
         const article = {
-        id:231321,
-        title:"please input valid link",
-        content: "invalid link",
-        tag:tag,
-        link:articleLink 
+          articleId: newUUID,
+          title: "please input valid link",
+          content: "invalid link",
+          createTime: "",
+          tag: tag,
+          link: articleLink,
+        };
+        saveArticle(article);
+        updateCurrentArticle(article);
+        addArticleList(article);
+      });
+    setArticleLink("");
+    setTag("");
+  };
+
+  useEffect(() => {
+    const fetchArticleList = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/v1/article"
+        );
+        console.log(response.data);
+        updateArticleList(response.data);
+      } catch (error) {
+        console.error(error);
       }
-      updateCurrentArticle(article)
-      addArticleList(article)
-    } 
-      );
-    setArticleLink("")
-    setTag("")
-  }
+    };
+    fetchArticleList();
+  }, []);
 
   return (
     <div className="sidebar border-end py-xl-4 py-3 px-xl-4 px-3">
@@ -71,13 +106,13 @@ const Article = ({currentArticle,updateCurrentArticle,addArticleList}) => {
           </div>
 
           <div className="d-flex form-group input-group-lg search mb-3">
-            <div className="col-8" style={{marginRight: '1rem'}}>
+            <div className="col-8" style={{ marginRight: "1rem" }}>
               <i className="zmdi zmdi-search"></i>
               <input
                 type="text"
                 className="form-control"
                 placeholder="please input article link..."
-                onChange={(e)=>handleChange(e)}
+                onChange={(e) => handleChange(e)}
                 value={articleLink}
               />
             </div>
@@ -96,33 +131,46 @@ const Article = ({currentArticle,updateCurrentArticle,addArticleList}) => {
           </div>
 
           <div className="dropdown">
-                <a
-                  className="btn btn-link px-1 py-0 border-0 text-muted dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                ></a>
-                <div className="dropdown-menu dropdown-menu-right">
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </div>
-              </div>
+            <a
+              className="btn btn-link px-1 py-0 border-0 text-muted dropdown-toggle"
+              href="#"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            ></a>
+            <div className="dropdown-menu dropdown-menu-right">
+              <a className="dropdown-item" href="#">
+                Action
+              </a>
+              <a className="dropdown-item" href="#">
+                Another action
+              </a>
+              <a className="dropdown-item" href="#">
+                Something else here
+              </a>
+            </div>
+          </div>
 
-          <ButtonGroup className="mb-3 gap-3 w-50"  style={{ width: "100%", height: "100%"}}>
-            <Button className="rounded" onClick={()=>setTag('tech')}>tech</Button>
-            <Button className="rounded" onClick={()=>setTag('news')}>news</Button>
-            <Button className="rounded" onClick={()=>setTag('AI')}>AI</Button>
-            <Button className="rounded" onClick={()=>setTag('finance')}>finance</Button>
-            <Button className="rounded" onClick={()=>setTag('finance')}>+</Button>
+          <ButtonGroup
+            className="mb-3 gap-3 w-50"
+            style={{ width: "100%", height: "100%" }}
+          >
+            <Button className="rounded" onClick={() => setTag("tech")}>
+              tech
+            </Button>
+            <Button className="rounded" onClick={() => setTag("news")}>
+              news
+            </Button>
+            <Button className="rounded" onClick={() => setTag("AI")}>
+              AI
+            </Button>
+            <Button className="rounded" onClick={() => setTag("finance")}>
+              finance
+            </Button>
+            <Button className="rounded" onClick={() => setTag("finance")}>
+              +
+            </Button>
           </ButtonGroup>
 
           <ul className="chat-list">
@@ -146,6 +194,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   updateCurrentArticle,
   addArticleList,
+  updateArticleList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);
