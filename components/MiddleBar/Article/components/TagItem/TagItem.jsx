@@ -21,7 +21,7 @@ function TagItem({tagName, updateCurrentArticle,articleList}) {
     <div className="form-select w-100" onClick={()=>{setDisplayDropDown((sta)=>!sta)}}>
     {tagName}
     </div>
-      {displayDropDown && articleList.filter((article)=>article.tag===tagName).map((article)=> <div className="w-100" onClick={()=>updateCurrentArticle(article)}> {article.title
+      {displayDropDown && articleList.filter((article)=>article.tag===tagName).map((article)=> <div key={article.id} className="w-100" onClick={()=>updateCurrentArticle(article)}> {article.title
       }</div>)}
     </li>
   );

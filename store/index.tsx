@@ -27,12 +27,8 @@ const initialState = {
     content: "",
     tag: []
   },
-  articleList :[
-    {id: 1, title: "一文带你读懂ChatGPT", content: "chatGPT是发发发发散发的发烧发顺丰的方法啊短发打分 啊的身份暗示法啊发a", tag:"tech", link:"www"},
-    {id: 2, title: "什么是Transform模型?", content: "transfom法师打发发烧发烧发烧发顺丰", tag:"tech", link:"www"},
-    {id: 3, title: "雷军发布小米汽车", content: "近日，小米集团总裁雷军发布消息称fadfadsfasfasfs", tag:"news", link:"www"},
-    {id: 4, title: "iphone20预览", content: "iphone20预览啊沙发沙发上", tag:"news", link:"www"},
-  ]
+  articleList :[],
+  currentChatList: []
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -76,6 +72,16 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         articleList: [...state.articleList,action.article]
+      }
+    case "SET_CURRENT_CHAT_LIST":
+      return {
+        ...state,
+        currentChatList: action.currentChatList
+      }
+    case "ADD_CHAT_TO_CURRENT_CHAT_LIST":
+      return {
+        ...state,
+        currentChatList: [...state.currentChatList,action.currentChat]
       }
     default:
       return state;

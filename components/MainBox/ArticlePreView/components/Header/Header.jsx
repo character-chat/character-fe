@@ -1,42 +1,38 @@
+import axios from "axios";
 import React from "react";
+import { Button } from 'react-bootstrap';
+import { connect } from "react-redux";
+import {addChatList} from "../../../../../store/actions";
+import {updateCurrentMiddleBar} from "../../../../../store/actions";
+import {updateCurrentMainBox} from "../../../../../store/actions";
+import {updateCurrentChatCharacter} from "../../../../../store/actions";
 
-function Header({title}) {
+
+function Header({article, addChatList,updateCurrentMiddleBar,updateCurrentMainBox,updateCurrentChatCharacter}) {
+  const currentChat = {characterGetDto:{characterId:article.articleId,name:article.title,avatar:''},history:[]};
+  const  currentCharacter =
+  {
+    characterId: article.articleId,
+    name: article.title,
+    time: "last 6 seconds",
+    avatar:
+      "",
+  }
+  const initialChat = (async ()=>{
+    await axios.post(`http://localhost:8080/api/v1/chat/user/${currentCharacter.characterId}`);
+  })
+
   return (
     <div className="chat-header border-bottom py-xl-4 py-md-3 py-2">
       <div className="container-xxl">
         <div className="row align-items-center">
           <div className="col-8 col-xl-8">
-            <div className="w-100"><h2>{title}</h2></div>
+            <div className="w-100"><h2>{article?.title}</h2></div>
           </div>
 
           <div className="col-3 col-xl-4 text-end">
             <ul className="nav justify-content-end">
-              {/* <li className="nav-item list-inline-item d-none d-md-block me-3">
-                  <a
-                    href="#"
-                    className="nav-link text-muted px-3"
-                    data-toggle="collapse"
-                    data-target="#chat-search-div"
-                    aria-expanded="true"
-                    title="Search this chat"
-                  >
-                    <i className="zmdi zmdi-search zmdi-hc-lg"></i>
-                  </a>
-                </li> */}
-              <li className="nav-item list-inline-item d-none d-sm-block me-3">
-                <a
-                  href="#"
-                  className="nav-link text-muted px-3"
-                  title="videocam"
-                >
-                  <i className="zmdi zmdi-videocam zmdi-hc-lg"></i>
-                </a>
-              </li>
-              <li className="nav-item list-inline-item d-none d-sm-block me-3">
-                <a href="#" className="nav-link text-muted px-3" title="Call">
-                  <i className="zmdi zmdi-phone-forwarded zmdi-hc-lg"></i>
-                </a>
-              </li>
+       
               <li className="nav-item list-inline-item add-user-btn">
                 <a
                   href="#"
@@ -46,37 +42,7 @@ function Header({title}) {
                   <i className="zmdi zmdi-account-add zmdi-hc-lg"></i>
                 </a>
               </li>
-
-              <li className="nav-item list-inline-item d-block d-sm-none px-3">
-                <div className="dropdown">
-                  <a
-                    className="nav-link text-muted px-0"
-                    href="#"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i className="zmdi zmdi-more-vert zmdi-hc-lg"></i>
-                  </a>
-                  <div className="dropdown-menu dropdown-menu-right">
-                    <a className="dropdown-item" href="#">
-                      Search chat
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      Attache Image
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      Video call
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      Call
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      Add New
-                    </a>
-                  </div>
-                </div>
-              </li>
+              <Button className="rounded" onClick={()=>{addChatList(currentChat);updateCurrentMiddleBar('RecentChat');updateCurrentMainBox('RecentChat');updateCurrentChatCharacter(currentCharacter),initialChat()}}>Chat</Button>
             </ul>
           </div>
         </div>
@@ -85,4 +51,19 @@ function Header({title}) {
   );
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    currentChatCharacter: state.currentChatCharacter,
+    currentChatList: state.currentChatList
+  };
+};
+
+const mapDispatchToProps = {
+  addChatList,
+  updateCurrentMiddleBar,
+  updateCurrentMainBox,
+  updateCurrentChatCharacter
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+

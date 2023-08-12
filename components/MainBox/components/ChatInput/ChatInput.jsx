@@ -1,7 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+import { connect } from 'react-redux';
 
-function ChatInput({ setHistory, currentChatCharacter }) {
+
+function ChatInput({ setHistory, currentChatCharacter,history }) {
   const { characterId } = currentChatCharacter;
   const [inputValue, setInputValue] = useState("");
   const [isBreak, setIsBreak] = useState(true);
@@ -75,18 +78,28 @@ function ChatInput({ setHistory, currentChatCharacter }) {
     });
 
     const requestHistory = {
-      historyId: 1,
-      sender: "cxc",
-      type: "user",
+      historyId: uuidv4(),
+      senderType: "USER",
+      senderId: characterId,
       content: inputValue,
       file: displayFile,
       createTime: formatted,
       isBreak: isBreak,
     };
-    setHistory((preState) => [...preState, requestHistory]);
-    getResponse();
+    const newHistory = history ? [...history, requestHistory] : [requestHistory];
+    setHistory(newHistory);
     setInputValue("");
     setIsJustSend(true);
+
+
+    axios.post(`http://localhost:8080/api/v1/chat/professionalAssistant/user/1/${characterId}`, requestHistory).then((response)=>{
+      const responseHistory = response.data;
+      const newHistoryResponse = [...newHistory, ...responseHistory];
+      setHistory(newHistoryResponse);
+      // responseHistory.map((responseHistoryItem) => {
+      //   setHistory((preState) => [...preState, responseHistoryItem]);
+      // });
+    })
   };
 
   const handleKeyPress = (event) => {
@@ -173,4 +186,15 @@ function ChatInput({ setHistory, currentChatCharacter }) {
   );
 }
 
-export default ChatInput;
+
+const mapStateToProps = (state) => {
+  return {
+    history: state.history
+  };
+};
+
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatInput);
+
