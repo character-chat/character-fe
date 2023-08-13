@@ -28,7 +28,8 @@ const initialState = {
     tag: []
   },
   articleList :[],
-  currentChatList: []
+  currentChatList: [],
+  userInfo: {tagList:[]}
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -82,6 +83,16 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         currentChatList: [...state.currentChatList,action.currentChat]
+      }
+    case "UPDATE_USER_INFO":
+      return {
+        ...state,
+        userInfo: action.userInfo
+      }
+    case "ADD_TAG":
+      return {
+        ...state,
+        userInfo: {...state.userInfo,tagList:[...state.userInfo.tagList,action.tag]}
       }
     default:
       return state;

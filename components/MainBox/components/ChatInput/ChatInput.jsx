@@ -189,7 +189,8 @@ function ChatInput({ setHistory, currentChatCharacter,history }) {
 
 const mapStateToProps = (state) => {
   return {
-    history: state.history
+    history: state.history,
+    userInfo: state.userInfo
   };
 };
 

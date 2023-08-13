@@ -1,21 +1,43 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 import TagItem from "./components/TagItem";
 import { connect } from "react-redux";
 import { updateCurrentArticle } from "../../../store/actions";
 import { addArticleList } from "../../../store/actions";
-import { updateArticleList } from "../../../store/actions";
+import { updateArticleList,addTag } from "../../../store/actions";
 import { useState } from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 import axios from "axios";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import Modal from "../../Modal";
 
-
-const Article = ({ updateCurrentArticle, addArticleList,updateArticleList }) => {
+const Article = ({
+  updateCurrentArticle,
+  addArticleList,
+  updateArticleList,
+  userInfo,
+  addTag,
+}) => {
   const [articleLink, setArticleLink] = useState("");
   const [tag, setTag] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [newTag, setNewTag] = useState("");
+  console.log(Modal);
 
   const handleChange = (event) => {
     setArticleLink(event.target.value);
+  };
+
+  const handleAddTag = async () => {
+    // axios.post(`http://localhost:8080/api/v1/tag`, {
+    //   tag: newTag,
+    // });
+    //add tag into usertag
+    const tag = {
+      tagId: uuidv4(),
+      tagName: newTag,
+    }
+    addTag(tag);
+    setModalIsOpen(false)
   };
 
   const saveArticle = async (article) => {
@@ -29,7 +51,6 @@ const Article = ({ updateCurrentArticle, addArticleList,updateArticleList }) => 
       console.error(error);
     }
   };
-
 
   const handleAddArticle = () => {
     const newUUID = uuidv4();
@@ -107,7 +128,7 @@ const Article = ({ updateCurrentArticle, addArticleList,updateArticleList }) => 
 
           <div className="d-flex form-group input-group-lg search mb-3">
             <div className="col-8" style={{ marginRight: "1rem" }}>
-              <i className="zmdi zmdi-search"></i>
+              <i className="zmdi zmdi-search z-0"></i>
               <input
                 type="text"
                 className="form-control"
@@ -152,32 +173,39 @@ const Article = ({ updateCurrentArticle, addArticleList,updateArticleList }) => 
             </div>
           </div>
 
-          <ButtonGroup
-            className="mb-3 gap-3 w-50"
-            style={{ width: "100%", height: "100%" }}
-          >
-            <Button className="rounded" onClick={() => setTag("tech")}>
-              tech
-            </Button>
-            <Button className="rounded" onClick={() => setTag("news")}>
-              news
-            </Button>
-            <Button className="rounded" onClick={() => setTag("AI")}>
-              AI
-            </Button>
-            <Button className="rounded" onClick={() => setTag("finance")}>
-              finance
-            </Button>
-            <Button className="rounded" onClick={() => setTag("finance")}>
+          <ButtonGroup className="mb-3 gap-3">
+            {userInfo.tagList?.map((tagItem) => (
+              <Button
+                key={tagItem.tagId}
+                className="rounded"
+                onClick={() => setTag(tagItem.tagName)}
+              >
+                {tagItem.tagName}
+              </Button>
+            ))}
+            <Button className="rounded" onClick={() => setModalIsOpen(true)}>
               +
             </Button>
           </ButtonGroup>
+          {modalIsOpen && (
+            <Modal>
+              <h5 className="modal-title">Add Tag</h5>
+              <input onChange={(e) => setNewTag(e.target.value)} />
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={()=>{setModalIsOpen(false)}}>
+                  Close
+                </button>
+                <button type="button" className="btn btn-primary" onClick={handleAddTag}>
+                  Save changes
+                </button>
+              </div>
+            </Modal>
+          )}
 
           <ul className="chat-list">
-            <TagItem tagName={"tech"} />
-            <TagItem tagName={"news"} />
-            <TagItem tagName={"AI"} />
-            <TagItem tagName={"finance"} />
+            {userInfo.tagList?.map((tagItem) => (
+              <TagItem key={tagItem.tagId} tagName={tagItem.tagName} />
+            ))}
           </ul>
         </div>
       </div>
@@ -188,13 +216,15 @@ const Article = ({ updateCurrentArticle, addArticleList,updateArticleList }) => 
 const mapStateToProps = (state) => {
   return {
     currentArticle: state.currentArticle,
+    userInfo: state.userInfo,
   };
 };
 
 const mapDispatchToProps = {
   updateCurrentArticle,
   addArticleList,
-  updateArticleList
+  updateArticleList,
+  addTag,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

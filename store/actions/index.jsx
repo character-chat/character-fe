@@ -68,3 +68,17 @@ export const addChatList = (currentChat)=>{
     currentChat: currentChat
   }
 }
+
+export const updateUserInfo=(userInfo)=>{
+  return {
+    type: "UPDATE_USER_INFO",
+    userInfo: userInfo
+  }
+}
+
+export const addTag = (tag)=>{
+  return {
+    type: "ADD_TAG",
+    tag: tag
+  }
+}

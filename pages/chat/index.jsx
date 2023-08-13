@@ -9,8 +9,17 @@ import CharacterSet from "../../components/MainBox/CharacterSet";
 import ArticlePreView from "../../components/MainBox/ArticlePreView";
 import ToolColumn from "../../components/ToolColumn";
 import { connect } from "react-redux";
+import { updateUserInfo } from "../../store/actions";
+import { useEffect } from "react";
+import axios from "axios";
 
-function Home({ currentChatCharacter, currentMiddleBar, currentMainBox, currentArticle}) {
+function Home({
+  currentChatCharacter,
+  currentMiddleBar,
+  currentMainBox,
+  currentArticle,
+  updateUserInfo,
+}) {
   const currentMiddleBarContent = () => {
     switch (currentMiddleBar) {
       case "Article":
@@ -37,15 +46,28 @@ function Home({ currentChatCharacter, currentMiddleBar, currentMainBox, currentA
           <CharacterSet currentChatCharacter={currentChatCharacter} />
         );
       case "Article":
-        return currentArticle === '' ? (
+        return currentArticle === "" ? (
           <DefaultChatReminder />
         ) : (
-          <ArticlePreView article={currentArticle}/>
+          <ArticlePreView article={currentArticle} />
         );
       default:
         return <DefaultChatReminder />;
     }
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v1/user/64d8db770323d3261e8ebb3a");
+        updateUserInfo(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <div className="App">
@@ -64,10 +86,12 @@ const mapStateToProps = (state) => {
     currentChatCharacter: state.currentChatCharacter,
     currentMiddleBar: state.currentMiddleBar,
     currentMainBox: state.currentMainBox,
-    currentArticle: state.currentArticle
+    currentArticle: state.currentArticle,
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  updateUserInfo,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

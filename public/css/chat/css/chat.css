@@ -9730,6 +9730,7 @@ body.admin .main-body .body-page::-webkit-scrollbar-thumb {
 }
 .search .zmdi-search {
   left: 16px;
+  z-index: 0;
 }
 .search .zmdi-dialpad {
   right: 16px;
