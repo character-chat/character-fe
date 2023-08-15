@@ -1,9 +1,22 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
-import { updateCurrentArticle } from "../../../../../store/actions";
+import { updateCurrentArticle,  deleteTag, } from "../../../../../store/actions";
+import axios from "axios";
 
-function TagItem({tagName, updateCurrentArticle,articleList}) {
+
+function TagItem({tagId,tagName, updateCurrentArticle,articleList,deleteTag}) {
   const [displayDropDown, setDisplayDropDown] = useState(false)
+
+  const handleDeleteTag = async (tagId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/api/v1/tag/${tagId}`
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <li>
@@ -14,7 +27,7 @@ function TagItem({tagName, updateCurrentArticle,articleList}) {
         <button type="button" className="btn btn-link text-warning">
           <i className="zmdi zmdi-star"></i>
         </button>
-        <button type="button" className="btn btn-link text-danger">
+        <button type="button" className="btn btn-link text-danger" onClick={()=>{deleteTag(tagId),handleDeleteTag(tagId)}}>
           <i className="zmdi zmdi-delete"></i>
         </button>
       </div>
@@ -35,6 +48,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   updateCurrentArticle,
+  deleteTag,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagItem);

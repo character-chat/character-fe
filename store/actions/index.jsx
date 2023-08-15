@@ -82,3 +82,17 @@ export const addTag = (tag)=>{
     tag: tag
   }
 }
+
+export const updateTagList = (tagList)=>{
+  return {
+    type: "SET_TAG_LIST",
+    tagList: tagList
+  }
+}
+
+export const deleteTag = (tagId)=>{
+  return {
+    type: "DELETE_TAG",
+    tagId: tagId
+  }
+}

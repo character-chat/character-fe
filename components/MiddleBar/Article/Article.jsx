@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import TagItem from "./components/TagItem";
 import { connect } from "react-redux";
 import { updateCurrentArticle } from "../../../store/actions";
-import { addArticleList } from "../../../store/actions";
-import { updateArticleList,addTag } from "../../../store/actions";
+import { addArticleList, updateTagList,deleteTag } from "../../../store/actions";
+import { updateArticleList, addTag } from "../../../store/actions";
 import { useState } from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 import axios from "axios";
@@ -13,31 +13,33 @@ import Modal from "../../Modal";
 const Article = ({
   updateCurrentArticle,
   addArticleList,
-  updateArticleList,
   userInfo,
   addTag,
+  updateTagList,
+  tagList,
 }) => {
   const [articleLink, setArticleLink] = useState("");
   const [tag, setTag] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newTag, setNewTag] = useState("");
-  console.log(Modal);
 
   const handleChange = (event) => {
     setArticleLink(event.target.value);
   };
 
   const handleAddTag = async () => {
-    // axios.post(`http://localhost:8080/api/v1/tag`, {
-    //   tag: newTag,
-    // });
-    //add tag into usertag
+    const userId = userInfo?.userId;
     const tag = {
       tagId: uuidv4(),
+      userId: userId,
       tagName: newTag,
-    }
+    };
+    axios.post(`http://localhost:8080/api/v1/tag/${userId}/tagList`,null, {params:{
+      tagId: tag.tagId,
+      tagName: tag.tagName,}
+    });
     addTag(tag);
-    setModalIsOpen(false)
+    setModalIsOpen(false);
   };
 
   const saveArticle = async (article) => {
@@ -51,6 +53,7 @@ const Article = ({
       console.error(error);
     }
   };
+
 
   const handleAddArticle = () => {
     const newUUID = uuidv4();
@@ -99,20 +102,35 @@ const Article = ({
     setTag("");
   };
 
+  // useEffect(() => {
+  //   const fetchArticleList = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://localhost:8080/api/v1/article"
+  //       );
+  //       console.log(response.data);
+  //       updateArticleList(response.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchArticleList();
+  // }, []);
+
   useEffect(() => {
-    const fetchArticleList = async () => {
+    const fetchTagList = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/article"
-        );
+        const response = await axios.get(`http://localhost:8080/api/v1/tag/${userInfo.userId}/tagList`);
         console.log(response.data);
-        updateArticleList(response.data);
+        updateTagList(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchArticleList();
-  }, []);
+    fetchTagList();
+  },[])
+
+
 
   return (
     <div className="sidebar border-end py-xl-4 py-3 px-xl-4 px-3">
@@ -174,7 +192,7 @@ const Article = ({
           </div>
 
           <ButtonGroup className="mb-3 gap-3">
-            {userInfo.tagList?.map((tagItem) => (
+            {tagList?.map((tagItem) => (
               <Button
                 key={tagItem.tagId}
                 className="rounded"
@@ -192,10 +210,20 @@ const Article = ({
               <h5 className="modal-title">Add Tag</h5>
               <input onChange={(e) => setNewTag(e.target.value)} />
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={()=>{setModalIsOpen(false)}}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setModalIsOpen(false);
+                  }}
+                >
                   Close
                 </button>
-                <button type="button" className="btn btn-primary" onClick={handleAddTag}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleAddTag}
+                >
                   Save changes
                 </button>
               </div>
@@ -203,8 +231,8 @@ const Article = ({
           )}
 
           <ul className="chat-list">
-            {userInfo.tagList?.map((tagItem) => (
-              <TagItem key={tagItem.tagId} tagName={tagItem.tagName} />
+            {tagList?.map((tagItem) => (
+              <TagItem key={tagItem.tagId} tagName={tagItem.tagName} tagId={tagItem.tagId}/>
             ))}
           </ul>
         </div>
@@ -217,6 +245,7 @@ const mapStateToProps = (state) => {
   return {
     currentArticle: state.currentArticle,
     userInfo: state.userInfo,
+    tagList : state.tagList
   };
 };
 
@@ -225,6 +254,8 @@ const mapDispatchToProps = {
   addArticleList,
   updateArticleList,
   addTag,
+  deleteTag,
+  updateTagList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

@@ -1,6 +1,41 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-const initialState = {
+
+interface Tag {
+  tagId: string;
+  tagName: string;
+}
+
+interface Character {
+  characterId: number;
+  name: string;
+  time: string;
+  avatar: string;
+}
+
+interface Article {
+  id: string;
+  title: string;
+  content: string;
+  tag: string[];
+}
+
+interface State {
+  currentChatCharacter: string;
+  currentMiddleBar: string;
+  currentMainBox: string;
+  currentCharacterList: Character[];
+  history: any[];
+  currentArticle: Article;
+  articleList: Article[];
+  currentChatList: any[];
+  userInfo: {
+    tagList: any[];
+  };
+  tagList: Tag[];
+}
+
+const initialState: State = {
   currentChatCharacter: "",
   currentMiddleBar: "",
   currentMainBox: "",
@@ -13,7 +48,7 @@ const initialState = {
         "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE",
     },
     {
-      characterId: "2",
+      characterId: 2,
       name: "xiangcheng",
       time: "last 6 seconds",
       avatar:
@@ -29,7 +64,8 @@ const initialState = {
   },
   articleList :[],
   currentChatList: [],
-  userInfo: {tagList:[]}
+  userInfo: {tagList:[]},
+  tagList: [],
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -92,7 +128,17 @@ const reducer = (state = initialState, action: any) => {
     case "ADD_TAG":
       return {
         ...state,
-        userInfo: {...state.userInfo,tagList:[...state.userInfo.tagList,action.tag]}
+        tagList: [...state.tagList,action.tag]
+      }
+    case "SET_TAG_LIST":
+      return {
+        ...state,
+        tagList: action.tagList
+      }
+    case "DELETE_TAG":
+      return {
+        ...state,
+        tagList: state.tagList.filter(tag => tag.tagId !== action.tagId)
       }
     default:
       return state;
