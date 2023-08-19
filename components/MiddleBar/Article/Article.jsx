@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import TagItem from "./components/TagItem";
 import { connect } from "react-redux";
-import { updateCurrentArticle } from "../../../store/actions";
+import { updateCurrentArticle,updateHistory } from "../../../store/actions";
 import {
   addArticleList,
   updateTagList,
@@ -22,7 +22,9 @@ const Article = ({
   addTag,
   updateTagList,
   tagList,
+  updateHistory,
   articleList,
+  history,
 }) => {
   const [articleLink, setArticleLink] = useState("");
   const [tag, setTag] = useState("");
@@ -84,7 +86,12 @@ const Article = ({
     }
   };
 
-  const handleAddArticle = () => {
+  const handleAddArticle = async () => {
+      saveArticle(article);
+      addArticleList(article);
+  }
+
+  const handleFetchArticle = () => {
     const newUUID = uuidv4();
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -111,8 +118,6 @@ const Article = ({
           link: articleLink,
         };
         setArticle(article);
-        // saveArticle(article);
-        // addArticleList(article);
         updateCurrentArticle(article);
       })
       .catch(() => {
@@ -222,7 +227,7 @@ const Article = ({
                 type="button"
                 data-toggle="modal"
                 data-target="#InviteFriends"
-                onClick={handleAddArticle}
+                onClick={handleFetchArticle}
               >
                 fetch article
               </button>
@@ -336,6 +341,7 @@ const mapStateToProps = (state) => {
     userInfo: state.userInfo,
     tagList: state.tagList,
     articleList: state.articleList,
+    history: state.history
   };
 };
 
@@ -346,6 +352,8 @@ const mapDispatchToProps = {
   addTag,
   deleteTag,
   updateTagList,
+  updateHistory
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

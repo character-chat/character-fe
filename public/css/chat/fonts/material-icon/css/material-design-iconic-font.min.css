@@ -17,6 +17,10 @@
   z-index: 1000;
 }
 
+.text-extra-small {
+  font-size: 1.1rem; /* or any desired size */
+}
+
 .modal-content {
   background-color: #fff;
   padding: 20px;

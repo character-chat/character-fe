@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import {addChatList} from "../../../../../store/actions";
 import {updateCurrentMiddleBar} from "../../../../../store/actions";
 import {updateCurrentMainBox} from "../../../../../store/actions";
-import {updateCurrentChatCharacter} from "../../../../../store/actions";
+import {updateCurrentChatCharacter,updateHistory} from "../../../../../store/actions";
 
 
-function Header({article, addChatList,updateCurrentMiddleBar,updateCurrentMainBox,updateCurrentChatCharacter}) {
+function Header({article, addChatList,updateCurrentMiddleBar,updateCurrentMainBox,updateCurrentChatCharacter,updateHistory,history}) {
   const currentChat = {characterGetDto:{characterId:article.articleId,name:article.title,avatar:''},history:[]};
   const  currentCharacter =
   {
@@ -21,6 +21,15 @@ function Header({article, addChatList,updateCurrentMiddleBar,updateCurrentMainBo
   const initialChat = (async ()=>{
     await axios.post(`http://localhost:8080/api/v1/chat/user/${currentCharacter.characterId}`);
   })
+
+  const chatHandler = (articleId) => {
+    axios.get(`http://localhost:8080/api/v1/chat/professionalAssistant/user/1/${articleId}/summary`).then((response)=>{
+      const responseHistory = response.data;
+      const newHistoryResponse = [...history, ...responseHistory];
+      updateHistory(newHistoryResponse);
+    })
+  };
+
 
   return (
     <div className="chat-header border-bottom py-xl-4 py-md-3 py-2">
@@ -42,7 +51,7 @@ function Header({article, addChatList,updateCurrentMiddleBar,updateCurrentMainBo
                   <i className="zmdi zmdi-account-add zmdi-hc-lg"></i>
                 </a>
               </li>
-              <Button className="rounded" onClick={()=>{addChatList(currentChat);updateCurrentMiddleBar('RecentChat');updateCurrentMainBox('RecentChat');updateCurrentChatCharacter(currentCharacter),initialChat()}}>Chat</Button>
+              <Button className="rounded" onClick={()=>{addChatList(currentChat);updateCurrentMiddleBar('RecentChat');updateCurrentMainBox('RecentChat');updateCurrentChatCharacter(currentCharacter),initialChat(),chatHandler(article.articleId)}}>Chat</Button>
             </ul>
           </div>
         </div>
@@ -54,7 +63,8 @@ function Header({article, addChatList,updateCurrentMiddleBar,updateCurrentMainBo
 const mapStateToProps = (state) => {
   return {
     currentChatCharacter: state.currentChatCharacter,
-    currentChatList: state.currentChatList
+    currentChatList: state.currentChatList,
+    history: state.history
   };
 };
 
@@ -62,7 +72,8 @@ const mapDispatchToProps = {
   addChatList,
   updateCurrentMiddleBar,
   updateCurrentMainBox,
-  updateCurrentChatCharacter
+  updateCurrentChatCharacter,
+  updateHistory
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

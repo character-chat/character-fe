@@ -16,6 +16,7 @@ const MainBox = ({currentChatCharacter, history, updateHistory}) => {
   }
 
   console.log(characterId)
+
   const getHistory = async function() {
     const res = await axios.get(`http://localhost:8080/api/v1/chat/professionalAssistantChat/user/1/${characterId}`)
     const data = res.data
@@ -26,6 +27,8 @@ const MainBox = ({currentChatCharacter, history, updateHistory}) => {
   useEffect(()=>{
     getHistory()
   } ,[currentChatCharacter])
+
+  console.log(history)
 
   return (
     <div className="main px-xl-5 px-lg-4 px-3">
