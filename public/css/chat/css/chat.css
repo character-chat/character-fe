@@ -6583,6 +6583,15 @@ fieldset:disabled .btn {
 .bg-gradient {
   background-image: var(--bs-gradient) !important;
 }
+.bg-gray {
+  background-color: #f5f5f5 !important;
+}
+.engraved-text {
+  color: #a9a9a9; /* 更深的灰色 */
+  text-shadow: -1px -1px 1px #fff, 1px 1px 1px #555;  /* 调整阴影以增强3D效果 */
+  font-weight: bold;
+}
+
 .text-wrap {
   white-space: normal !important;
 }

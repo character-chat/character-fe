@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import TagItem from "./components/TagItem";
 import { connect } from "react-redux";
 import { updateCurrentArticle } from "../../../store/actions";
-import { addArticleList, updateTagList,deleteTag } from "../../../store/actions";
+import {
+  addArticleList,
+  updateTagList,
+  deleteTag,
+} from "../../../store/actions";
 import { updateArticleList, addTag } from "../../../store/actions";
 import { useState } from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
@@ -12,31 +16,57 @@ import Modal from "../../Modal";
 
 const Article = ({
   updateCurrentArticle,
+  currentArticle,
   addArticleList,
   userInfo,
   addTag,
   updateTagList,
   tagList,
+  articleList,
 }) => {
   const [articleLink, setArticleLink] = useState("");
   const [tag, setTag] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newTag, setNewTag] = useState("");
+  const [recommendationTags, setRecommendationTags] = useState([]);
+  const [displayRecommendationTags, setDisplayRecommendationTags] = useState(false);
+  const [article,setArticle] = useState();
 
   const handleChange = (event) => {
     setArticleLink(event.target.value);
   };
 
-  const handleAddTag = async () => {
+  const handleCheckboxChange = (tagId) => {
+    const targetTag = recommendationTags.find((item) => {
+      return item.tagId === tagId
+    });
+
+    handleAddTag(targetTag?.tagName);
+    const newTags = recommendationTags.filter((item) => {
+      return item.tagId !== tagId
+    });
+    setRecommendationTags(newTags);
+    if(newTags.length === 0){
+      setDisplayRecommendationTags(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log(recommendationTags);
+  }, [recommendationTags]);
+
+  const handleAddTag = async (tagName) => {
     const userId = userInfo?.userId;
     const tag = {
       tagId: uuidv4(),
       userId: userId,
-      tagName: newTag,
+      tagName: tagName,
     };
-    axios.post(`http://localhost:8080/api/v1/tag/${userId}/tagList`,null, {params:{
-      tagId: tag.tagId,
-      tagName: tag.tagName,}
+    axios.post(`http://localhost:8080/api/v1/tag/${userId}/tagList`, null, {
+      params: {
+        tagId: tag.tagId,
+        tagName: tag.tagName,
+      },
     });
     addTag(tag);
     setModalIsOpen(false);
@@ -53,7 +83,6 @@ const Article = ({
       console.error(error);
     }
   };
-
 
   const handleAddArticle = () => {
     const newUUID = uuidv4();
@@ -81,9 +110,10 @@ const Article = ({
           tag: tag,
           link: articleLink,
         };
-        saveArticle(article);
+        setArticle(article);
+        // saveArticle(article);
+        // addArticleList(article);
         updateCurrentArticle(article);
-        addArticleList(article);
       })
       .catch(() => {
         const article = {
@@ -94,9 +124,8 @@ const Article = ({
           tag: tag,
           link: articleLink,
         };
-        saveArticle(article);
+        setDisplayRecommendationTags(false);
         updateCurrentArticle(article);
-        addArticleList(article);
       });
     setArticleLink("");
     setTag("");
@@ -120,7 +149,9 @@ const Article = ({
   useEffect(() => {
     const fetchTagList = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/tag/${userInfo.userId}/tagList`);
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/tag/${userInfo.userId}/tagList`
+        );
         console.log(response.data);
         updateTagList(response.data);
       } catch (error) {
@@ -128,9 +159,38 @@ const Article = ({
       }
     };
     fetchTagList();
-  },[])
+  }, []);
 
+  useEffect(() => {
+    const fetchRecommendationTags = async () => {
+      try {
+        const response = await axios.post(
+          `http://localhost:8080/api/v1/tag/recommendations`,
+          null,
+          { params: { title: currentArticle.title } }
+        );
+        console.log(response.data);
+        const recommendationTags = response.data;
+        const tags = recommendationTags.map((item, index) => {
+          const newTag = {
+            tagId: index + 1,
+            tagName: item,
+            choose: false,
+          };
+          return newTag;
+        });
+        console.log(tags);
+        setRecommendationTags(tags);
+        setDisplayRecommendationTags(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    if (article) {
+      fetchRecommendationTags();
+    }
+  }, [article]);
 
   return (
     <div className="sidebar border-end py-xl-4 py-3 px-xl-4 px-3">
@@ -164,7 +224,7 @@ const Article = ({
                 data-target="#InviteFriends"
                 onClick={handleAddArticle}
               >
-                Add Article
+                fetch article
               </button>
             </div>
           </div>
@@ -191,20 +251,43 @@ const Article = ({
             </div>
           </div>
 
-          <ButtonGroup className="mb-3 gap-3">
+          {displayRecommendationTags&&<div className="bg-gray w-full mb-4 h-100">
+            <h6 className="text-primary">Recommendation Tags</h6> 
+            <div className="flex justify-content-between">
+            {recommendationTags.map((tag) => (
+                <Button
+                  key={tag.tagId}
+                  className="rounded bg-primary text-white m-1"
+                  onClick={() =>  handleCheckboxChange(tag.tagId)}
+                >
+                  {tag.tagName}
+                </Button>
+            ))}
+
+            </div>
+          </div>}
+
+          <div className="mb-3 gap-3">
             {tagList?.map((tagItem) => (
               <Button
                 key={tagItem.tagId}
-                className="rounded"
+                className="rounded bg-primary text-white m-1"
                 onClick={() => setTag(tagItem.tagName)}
               >
                 {tagItem.tagName}
               </Button>
             ))}
-            <Button className="rounded" onClick={() => setModalIsOpen(true)}>
+            <Button className="rounded m-1" onClick={() => setModalIsOpen(true)}>
               +
             </Button>
-          </ButtonGroup>
+            <button
+                className="btn btn-dark m-1"
+                type="button"
+                onClick={handleAddArticle}
+              >
+                Add Article
+              </button>
+          </div>
           {modalIsOpen && (
             <Modal>
               <h5 className="modal-title">Add Tag</h5>
@@ -222,7 +305,9 @@ const Article = ({
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={handleAddTag}
+                  onClick={() => {
+                    handleAddTag(newTag);
+                  }}
                 >
                   Save changes
                 </button>
@@ -232,7 +317,11 @@ const Article = ({
 
           <ul className="chat-list">
             {tagList?.map((tagItem) => (
-              <TagItem key={tagItem.tagId} tagName={tagItem.tagName} tagId={tagItem.tagId}/>
+              <TagItem
+                key={tagItem.tagId}
+                tagName={tagItem.tagName}
+                tagId={tagItem.tagId}
+              />
             ))}
           </ul>
         </div>
@@ -245,7 +334,8 @@ const mapStateToProps = (state) => {
   return {
     currentArticle: state.currentArticle,
     userInfo: state.userInfo,
-    tagList : state.tagList
+    tagList: state.tagList,
+    articleList: state.articleList,
   };
 };
 
@@ -255,7 +345,7 @@ const mapDispatchToProps = {
   updateArticleList,
   addTag,
   deleteTag,
-  updateTagList
+  updateTagList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

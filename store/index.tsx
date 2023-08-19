@@ -14,10 +14,10 @@ interface Character {
 }
 
 interface Article {
-  id: string;
-  title: string;
-  content: string;
-  tag: string[];
+  id?: string;
+  title?: string;
+  content?: string;
+  tag?: string[];
 }
 
 interface State {
@@ -56,12 +56,7 @@ const initialState: State = {
     },
   ],
   history: [],
-  currentArticle: {
-    id: "",
-    title: "",
-    content: "",
-    tag: []
-  },
+  currentArticle: {},
   articleList :[],
   currentChatList: [],
   userInfo: {tagList:[]},
