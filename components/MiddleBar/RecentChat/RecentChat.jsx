@@ -1,8 +1,11 @@
 import { connect } from "react-redux";
 import { updateCurrentChatCharacter } from "../../../store/actions";
 
-const RecentChat = ({ updateCurrentChatCharacter, currentChatList}) => {
-
+const RecentChat = ({
+  updateCurrentChatCharacter,
+  currentChatList,
+  professionalChat,
+}) => {
   const setCurrentChatCharacter = (event) => {
     updateCurrentChatCharacter(event);
   };
@@ -86,9 +89,9 @@ const RecentChat = ({ updateCurrentChatCharacter, currentChatList}) => {
               </a>
             </li>
 
-            {currentChatList.map((chathistory) => (
+            {professionalChat.map((chathistory) => (
               <li
-                key={chathistory.characterGetDto.id}
+                key={chathistory.professionalChatId}
                 className="online"
                 onClick={() => {
                   setCurrentChatCharacter(chathistory.characterGetDto);
@@ -108,26 +111,25 @@ const RecentChat = ({ updateCurrentChatCharacter, currentChatList}) => {
                 <a href="#" className="card">
                   <div className="card-body">
                     <div className="media">
-
                       <div className="avatar me-3">
-                      <div className="avatar rounded-circle no-image bg-info text-light">
-                        <span>
-                          <i className="zmdi zmdi-account"></i>
-                        </span>
+                        <div className="avatar rounded-circle no-image bg-info text-light">
+                          <span>
+                            <i className="zmdi zmdi-account"></i>
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                      
+
                       <div className="media-body overflow-hidden">
                         <div className="d-flex align-items-center mb-1">
                           <h6 className="text-truncate mb-0 me-auto">
-                            {chathistory.characterGetDto.name}
+                            {chathistory.articleName}
                           </h6>
                           <p className="small text-muted text-nowrap ms-4 mb-0">
-                            {chathistory?.history[0]?.createTime}
+                            {chathistory.createTime}
                           </p>
                         </div>
                         <div className="text-truncate">
-                          {chathistory?.history[0]?.content}
+                          {chathistory.articleName}
                         </div>
                       </div>
                     </div>
@@ -145,7 +147,8 @@ const RecentChat = ({ updateCurrentChatCharacter, currentChatList}) => {
 const mapStateToProps = (state) => {
   return {
     currentChatCharacter: state.currentChatCharacter,
-    currentChatList: state.currentChatList
+    currentChatList: state.currentChatList,
+    professionalChat: state.professionalChat,
   };
 };
 

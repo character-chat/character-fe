@@ -16,7 +16,7 @@ function UserChatItem({ chatHistory }) {
   const avatar =
     "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcRNug2nY7GDEG23c7HpAX6pWLWp3dfcQmTxGz50nGt_kAqGyAxoVPLw21v137iB7iAW";
 
-  const time = createTime.split(" ")[1];
+  const time = createTime?.split(" ")[1];
 
   return (
     <li className="d-flex message right">

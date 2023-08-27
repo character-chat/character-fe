@@ -27,6 +27,13 @@ export const updateHistory = (history) => {
   };
 };
 
+export const addHistory = (historyList) => {
+  return{
+    type: "ADD_HISTORY",
+    historyList: historyList
+  }
+}
+
 export const deleteCharacter = (characterId) => {
   return {
     type: "DELETE_CHARACTER",
@@ -87,6 +94,13 @@ export const updateTagList = (tagList)=>{
   return {
     type: "SET_TAG_LIST",
     tagList: tagList
+  }
+}
+
+export const addProfessionalChat = (professionalChat)=>{
+  return {
+    type: "ADD_PROFESSIONAL_CHAT",
+    professionalChat: professionalChat
   }
 }
 

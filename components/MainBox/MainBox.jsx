@@ -21,7 +21,7 @@ const MainBox = ({currentChatCharacter, history, updateHistory}) => {
     const res = await axios.get(`http://localhost:8080/api/v1/chat/professionalAssistantChat/user/1/${characterId}`)
     const data = res.data
     console.log(data)
-    setHistory(data.historyList)
+    setHistory(data)
   }
 
   useEffect(()=>{

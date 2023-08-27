@@ -9,7 +9,7 @@ import {
 } from "../../../store/actions";
 import { updateArticleList, addTag } from "../../../store/actions";
 import { useState } from "react";
-import { ButtonGroup, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Modal from "../../Modal";
@@ -22,9 +22,6 @@ const Article = ({
   addTag,
   updateTagList,
   tagList,
-  updateHistory,
-  articleList,
-  history,
 }) => {
   const [articleLink, setArticleLink] = useState("");
   const [tag, setTag] = useState("");
@@ -44,9 +41,11 @@ const Article = ({
     });
 
     handleAddTag(targetTag?.tagName);
+
     const newTags = recommendationTags.filter((item) => {
       return item.tagId !== tagId
     });
+    
     setRecommendationTags(newTags);
     if(newTags.length === 0){
       setDisplayRecommendationTags(false);
@@ -64,9 +63,8 @@ const Article = ({
       userId: userId,
       tagName: tagName,
     };
-    axios.post(`http://localhost:8080/api/v1/tag/${userId}/tagList`, null, {
+    axios.post(`http://localhost:8080/api/v1/user/${userId}/tagList`, null, {
       params: {
-        tagId: tag.tagId,
         tagName: tag.tagName,
       },
     });
@@ -110,6 +108,7 @@ const Article = ({
       .then((result) => {
         const resultObject = JSON.parse(result);
         const article = {
+          userId: userInfo.userId,
           articleId: newUUID,
           title: resultObject.Data.Title,
           content: resultObject.Data.Content,
@@ -136,34 +135,9 @@ const Article = ({
     setTag("");
   };
 
-  // useEffect(() => {
-  //   const fetchArticleList = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "http://localhost:8080/api/v1/article"
-  //       );
-  //       console.log(response.data);
-  //       updateArticleList(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchArticleList();
-  // }, []);
 
   useEffect(() => {
-    const fetchTagList = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/tag/${userInfo.userId}/tagList`
-        );
-        console.log(response.data);
-        updateTagList(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchTagList();
+    updateTagList(userInfo.tags);
   }, []);
 
   useEffect(() => {
