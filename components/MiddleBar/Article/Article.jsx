@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import TagItem from "./components/TagItem";
 import { connect } from "react-redux";
-import { updateCurrentArticle,updateHistory } from "../../../store/actions";
+import { updateCurrentArticle, updateHistory } from "../../../store/actions";
 import {
   addArticleList,
   updateTagList,
@@ -22,14 +22,17 @@ const Article = ({
   addTag,
   updateTagList,
   tagList,
+  articleList,
+  updateArticleList,
 }) => {
   const [articleLink, setArticleLink] = useState("");
-  const [tag, setTag] = useState("");
+  const [editTagList, setEditTagList] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newTag, setNewTag] = useState("");
   const [recommendationTags, setRecommendationTags] = useState([]);
-  const [displayRecommendationTags, setDisplayRecommendationTags] = useState(false);
-  const [article,setArticle] = useState();
+  const [displayRecommendationTags, setDisplayRecommendationTags] =
+    useState(false);
+  const [article, setArticle] = useState();
 
   const handleChange = (event) => {
     setArticleLink(event.target.value);
@@ -37,17 +40,17 @@ const Article = ({
 
   const handleCheckboxChange = (tagId) => {
     const targetTag = recommendationTags.find((item) => {
-      return item.tagId === tagId
+      return item.tagId === tagId;
     });
 
     handleAddTag(targetTag?.tagName);
 
     const newTags = recommendationTags.filter((item) => {
-      return item.tagId !== tagId
+      return item.tagId !== tagId;
     });
-    
+
     setRecommendationTags(newTags);
-    if(newTags.length === 0){
+    if (newTags.length === 0) {
       setDisplayRecommendationTags(false);
     }
   };
@@ -73,6 +76,7 @@ const Article = ({
   };
 
   const saveArticle = async (article) => {
+    console.log(article)
     try {
       const response = await axios.post(
         `http://localhost:8080/api/v1/article`,
@@ -85,11 +89,32 @@ const Article = ({
   };
 
   const handleAddArticle = async () => {
-      saveArticle(article);
-      addArticleList(article);
-  }
+    const articleTags = [...article.tags];
+    articleTags.push(...editTagList)
+    
+    const newArticle = {
+      ...article,
+      tags: articleTags
+    };
+
+    console.log(newArticle)
+
+    saveArticle(newArticle);
+    addArticleList(newArticle);
+  };
 
   const handleFetchArticle = () => {
+    const now = new Date();
+    const formatted = now.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZone: "UTC",
+    });
+
     const newUUID = uuidv4();
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -112,8 +137,8 @@ const Article = ({
           articleId: newUUID,
           title: resultObject.Data.Title,
           content: resultObject.Data.Content,
-          createTime: "",
-          tag: tag,
+          tags: editTagList,
+          createTime: formatted,
           link: articleLink,
         };
         setArticle(article);
@@ -124,21 +149,19 @@ const Article = ({
           articleId: newUUID,
           title: "please input valid link",
           content: "invalid link",
-          createTime: "",
-          tag: tag,
+          tags: editTagList,
           link: articleLink,
         };
         setDisplayRecommendationTags(false);
         updateCurrentArticle(article);
       });
     setArticleLink("");
-    setTag("");
+    setEditTagList([]);
   };
 
-
-  useEffect(() => {
-    updateTagList(userInfo.tags);
-  }, []);
+  useEffect(()=>{
+    console.log(article)
+  },[article])
 
   useEffect(() => {
     const fetchRecommendationTags = async () => {
@@ -170,6 +193,28 @@ const Article = ({
       fetchRecommendationTags();
     }
   }, [article]);
+
+  useEffect(() => {
+    const fetchArticleList = async () => {
+      const { data: articleListData } = await axios.get(
+        "http://localhost:8080/api/v1/article"
+      );
+      updateArticleList(articleListData);
+    };
+    fetchArticleList();
+  }, []);
+
+  useEffect(() => {
+    console.log(articleList);
+  }, [articleList]);
+
+  useEffect(() => {
+    updateTagList(userInfo.tags);
+  }, []);
+
+  useEffect(() => {
+    console.log(editTagList);
+  },[editTagList])
 
   return (
     <div className="sidebar border-end py-xl-4 py-3 px-xl-4 px-3">
@@ -230,42 +275,51 @@ const Article = ({
             </div>
           </div>
 
-          {displayRecommendationTags&&<div className="bg-gray w-full mb-4 h-100">
-            <h6 className="text-primary">Recommendation Tags</h6> 
-            <div className="flex justify-content-between">
-            {recommendationTags.map((tag) => (
-                <Button
-                  key={tag.tagId}
-                  className="rounded bg-primary text-white m-1"
-                  onClick={() =>  handleCheckboxChange(tag.tagId)}
-                >
-                  {tag.tagName}
-                </Button>
-            ))}
-
+          {displayRecommendationTags && (
+            <div className="bg-gray w-full mb-4 h-100">
+              <h6 className="text-primary">Recommendation Tags</h6>
+              <div className="flex justify-content-between">
+                {recommendationTags.map((tag) => (
+                  <Button
+                    key={tag.tagId}
+                    className="rounded bg-primary text-white m-1"
+                    onClick={() => handleCheckboxChange(tag.tagId)}
+                  >
+                    {tag.tagName}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>}
+          )}
 
           <div className="mb-3 gap-3">
             {tagList?.map((tagItem) => (
               <Button
                 key={tagItem.tagId}
-                className="rounded bg-primary text-white m-1"
-                onClick={() => setTag(tagItem.tagName)}
+                className={`rounded bg-primary m-1 ${editTagList.includes(
+                  tagItem.tagName
+                )?'border-info border-2':''}`}
+                onClick={() =>
+                  setEditTagList((preTag) => {if(preTag.includes(tagItem.tagName))return preTag.filter((item)=>item!==tagItem.tagName)
+                  else return [...preTag, tagItem.tagName]})
+                }
               >
                 {tagItem.tagName}
               </Button>
             ))}
-            <Button className="rounded m-1" onClick={() => setModalIsOpen(true)}>
+            <Button
+              className="rounded m-1"
+              onClick={() => setModalIsOpen(true)}
+            >
               +
             </Button>
             <button
-                className="btn btn-dark m-1"
-                type="button"
-                onClick={handleAddArticle}
-              >
-                Add Article
-              </button>
+              className="btn btn-dark m-1"
+              type="button"
+              onClick={handleAddArticle}
+            >
+              Add Article
+            </button>
           </div>
           {modalIsOpen && (
             <Modal>
@@ -315,7 +369,7 @@ const mapStateToProps = (state) => {
     userInfo: state.userInfo,
     tagList: state.tagList,
     articleList: state.articleList,
-    history: state.history
+    history: state.history,
   };
 };
 
@@ -326,8 +380,7 @@ const mapDispatchToProps = {
   addTag,
   deleteTag,
   updateTagList,
-  updateHistory
-
+  updateHistory,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

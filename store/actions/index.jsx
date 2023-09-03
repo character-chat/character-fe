@@ -104,9 +104,16 @@ export const addProfessionalChat = (professionalChat)=>{
   }
 }
 
-export const deleteTag = (tagId)=>{
+export const updateProfessionalChatList = (professionalChatList)=>{
+  return {
+    type: "UPDATE_PROFESSIONAL_CHAT",
+    professionalChatList: professionalChatList
+  }
+}
+
+export const deleteTag = (tagName)=>{
   return {
     type: "DELETE_TAG",
-    tagId: tagId
+    tagName: tagName
   }
 }

@@ -140,12 +140,17 @@ const reducer = (state = initialState, action: any) => {
     case "DELETE_TAG":
       return {
         ...state,
-        tagList: state.tagList.filter(tag => tag.tagId !== action.tagId)
+        tagList: state.tagList.filter(tag => tag.tagName !== action.tagName)
       }
     case "ADD_PROFESSIONAL_CHAT":
       return {
         ...state,
         professionalChat: [...state.professionalChat,action.professionalChat]
+      }
+    case "UPDATE_PROFESSIONAL_CHAT":
+      return {
+        ...state,
+        professionalChat: action.professionalChatList
       }
     default:
       return state;

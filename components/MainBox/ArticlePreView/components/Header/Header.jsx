@@ -117,9 +117,6 @@ function Header({
       articleId = isProfessionalChat.professionalChatId.split('_')[1]
     }
 
-    console.log(isProfessionalChat)
-    console.log(articleId)
-
     if(!isProfessionalChat){
       const professionalAssistantChat = {
         professionalChatId: professionalChatId,
@@ -130,7 +127,8 @@ function Header({
         isDelete: false,
       }
       addProfessionalChat(professionalAssistantChat)
-      axios.post(`http://localhost:8080/api/v1/chat/professionalAssistant/user/1/${articleId}/${articleName}`)
+      updateCurrentChatCharacter(professionalAssistantChat),
+      axios.post(`http://localhost:8080/api/v1/chat/professionalAssistant/user/${userInfo.userId}/${articleId}/${articleName}`)
     }
   }
 
@@ -160,8 +158,7 @@ function Header({
                 onClick={() => {
                   updateCurrentMiddleBar("RecentChat");
                   updateCurrentMainBox("RecentChat");
-                  updateCurrentChatCharacter(currentCharacter),
-                  addProfessionalAssistantChat(article.articleId,article.title),
+                  addProfessionalAssistantChat(article.articleId,article.title)
                   chatSummaryHandler(article.title,article.articleId)
                   chatQaHandler(article.title,article.articleId),
                   chatHighlightHandler(article.title,article.articleId)

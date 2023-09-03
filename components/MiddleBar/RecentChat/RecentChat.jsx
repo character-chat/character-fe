@@ -1,14 +1,28 @@
+import axios from "axios";
+import {useEffect} from "react";
 import { connect } from "react-redux";
-import { updateCurrentChatCharacter } from "../../../store/actions";
+import { updateCurrentChatCharacter,updateProfessionalChatList } from "../../../store/actions";
 
 const RecentChat = ({
   updateCurrentChatCharacter,
-  currentChatList,
   professionalChat,
+  updateProfessionalChatList,
+  userInfo
 }) => {
   const setCurrentChatCharacter = (event) => {
     updateCurrentChatCharacter(event);
   };
+
+
+  useEffect(()=>{
+    const fetchCurrentChat = async ()=>{
+      const fetchedData = await axios.get(`http://localhost:8080/api/v1/chat/professionalAssistantChat/user/${userInfo.userId}`)
+      console.log(fetchedData.data)
+      updateProfessionalChatList(fetchedData.data)
+    }
+
+    fetchCurrentChat()
+  },[])
 
   return (
     <div className="sidebar border-end py-xl-4 py-3 px-xl-4 px-3">
@@ -94,7 +108,7 @@ const RecentChat = ({
                 key={chathistory.professionalChatId}
                 className="online"
                 onClick={() => {
-                  setCurrentChatCharacter(chathistory.characterGetDto);
+                  setCurrentChatCharacter(chathistory);
                 }}
               >
                 <div className="hover_action">
@@ -149,11 +163,13 @@ const mapStateToProps = (state) => {
     currentChatCharacter: state.currentChatCharacter,
     currentChatList: state.currentChatList,
     professionalChat: state.professionalChat,
+    userInfo: state.userInfo
   };
 };
 
 const mapDispatchToProps = {
   updateCurrentChatCharacter,
+  updateProfessionalChatList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecentChat);

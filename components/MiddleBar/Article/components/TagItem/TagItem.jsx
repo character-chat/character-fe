@@ -4,15 +4,14 @@ import { updateCurrentArticle,  deleteTag, } from "../../../../../store/actions"
 import axios from "axios";
 
 
-function TagItem({tagId,tagName, updateCurrentArticle,articleList,deleteTag}) {
+function TagItem({tagName, updateCurrentArticle,articleList,deleteTag,userInfo}) {
   const [displayDropDown, setDisplayDropDown] = useState(false)
 
-  const handleDeleteTag = async (tagId) => {
+  const handleDeleteTag = async (tagName) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8080/api/v1/tag/${tagId}`
+      await axios.delete(
+        `http://localhost:8080/api/v1/user/${userInfo?.userId}/tags/${tagName}`
       );
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -27,14 +26,14 @@ function TagItem({tagId,tagName, updateCurrentArticle,articleList,deleteTag}) {
         <button type="button" className="btn btn-link text-warning">
           <i className="zmdi zmdi-star"></i>
         </button>
-        <button type="button" className="btn btn-link text-danger" onClick={()=>{deleteTag(tagId),handleDeleteTag(tagId)}}>
+        <button type="button" className="btn btn-link text-danger" onClick={()=>{deleteTag(tagName),handleDeleteTag(tagName)}}>
           <i className="zmdi zmdi-delete"></i>
         </button>
       </div>
     <div className="form-select w-100" onClick={()=>{setDisplayDropDown((sta)=>!sta)}}>
     {tagName}
     </div>
-      {displayDropDown && articleList.filter((article)=>article.tag===tagName).map((article)=> <div key={article.id} className="w-100" onClick={()=>updateCurrentArticle(article)}> {article.title
+      {displayDropDown && articleList.filter((article)=>article.tags.includes(tagName)).map((article)=> <div key={article.id} className="w-100" onClick={()=>updateCurrentArticle(article)}> {article.title
       }</div>)}
     </li>
   );
@@ -43,6 +42,7 @@ function TagItem({tagId,tagName, updateCurrentArticle,articleList,deleteTag}) {
 const mapStateToProps = (state) => {
   return {
     articleList: state.articleList,
+    userInfo: state.userInfo
   };
 };
 
