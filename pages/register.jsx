@@ -126,6 +126,7 @@ const Register = () => {
                       Please fill out this field.
                     </div>
                   </div>
+                  <span>请点击泡泡以选择你的默认标签</span>
                   <div
                     className="my-3 d-flex position-relative"
                     style={{
