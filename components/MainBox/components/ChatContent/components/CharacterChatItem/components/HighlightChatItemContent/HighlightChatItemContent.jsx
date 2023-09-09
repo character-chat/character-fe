@@ -18,7 +18,7 @@ function HighlightChatItemContent({ history }) {
       }}
     >
       <div className="border-bottom w-100 py-2">
-        <h3 className="text-center mb-0">HightLight Content</h3>
+        <h4 className="text-center mb-0">HightLight Content</h4>
       </div>
       <div
         className={`p-3 bg-light w-100 rounded text-extra-small position-relative`}

@@ -9,7 +9,7 @@ import {updateHistory} from "../../store/actions";
 
 const MainBox = ({currentChatCharacter, history, updateHistory,userInfo}) => {
   const {articleId, articleName, createTime, avatar} = currentChatCharacter
-  const imageBase64 = "data:image/png;base64," + avatar;
+  console.log(avatar)
   
   const setHistory=(event)=>{
     updateHistory(event)
@@ -29,8 +29,8 @@ const MainBox = ({currentChatCharacter, history, updateHistory,userInfo}) => {
   return (
     <div className="main px-xl-5 px-lg-4 px-3">
       <div className="chat-body">
-        <ChatHeader name={articleName} avatar={imageBase64} time={createTime}/>
-        <ChatContent chatHistoryArray={history} name={articleName} avatar={imageBase64}/>
+        <ChatHeader name={articleName} avatar={avatar} time={createTime}/>
+        <ChatContent chatHistoryArray={history} name={articleName} avatar={avatar}/>
         <ChatInput setHistory={setHistory} currentChatCharacter={currentChatCharacter}/>
       </div>
     </div>

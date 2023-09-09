@@ -9,7 +9,7 @@ function ChatHeader({name, avatar,time}) {
             <div className="media">
               <div className="me-3 show-user-detail">
                 <span className="status rounded-circle"></span>
-                <img className="avatar rounded-circle" src={avatar} alt="avatar" />
+                <img className="avatar rounded-circle" src={`images/${avatar}`} alt="avatar" />
               </div>
               <div className="media-body overflow-hidden">
                 <div className="d-flex align-items-center mb-1">

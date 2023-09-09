@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
+import { userInfo } from "os";
 
 
-function ChatInput({ setHistory, currentChatCharacter,history }) {
-  const { characterId } = currentChatCharacter;
+function ChatInput({ setHistory, currentChatCharacter,history,userInfo }) {
+  const { articleId } = currentChatCharacter;
+  console.log(currentChatCharacter)
   const [inputValue, setInputValue] = useState("");
   const [isBreak, setIsBreak] = useState(true);
   const [isJustSend, setIsJustSend] = useState(false);
@@ -74,13 +76,13 @@ function ChatInput({ setHistory, currentChatCharacter,history }) {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-      timeZone: "UTC",
+      timeZone: "Asia/Shanghai",
     });
-
     const requestHistory = {
-      historyId: uuidv4(),
       senderType: "USER",
-      senderId: characterId,
+      chatType: "PROFESSIONAL",
+      userId: userInfo.userId,
+      professionalAssistantId: articleId,
       content: inputValue,
       file: displayFile,
       createTime: formatted,
@@ -91,14 +93,10 @@ function ChatInput({ setHistory, currentChatCharacter,history }) {
     setInputValue("");
     setIsJustSend(true);
 
-
-    axios.post(`http://localhost:8080/api/v1/chat/professionalAssistant/user/1/${characterId}`, requestHistory).then((response)=>{
+    axios.post(`http://localhost:8080/api/v1/chat/chatHistory`, requestHistory).then((response)=>{
       const responseHistory = response.data;
       const newHistoryResponse = [...newHistory, ...responseHistory];
       setHistory(newHistoryResponse);
-      // responseHistory.map((responseHistoryItem) => {
-      //   setHistory((preState) => [...preState, responseHistoryItem]);
-      // });
     })
   };
 
@@ -190,7 +188,7 @@ function ChatInput({ setHistory, currentChatCharacter,history }) {
 const mapStateToProps = (state) => {
   return {
     history: state.history,
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
   };
 };
 

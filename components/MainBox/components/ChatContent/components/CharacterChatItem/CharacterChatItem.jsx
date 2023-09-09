@@ -31,7 +31,7 @@ function CharacterChatItem({name, avatar, chatHistory}) {
       <div className="mr-lg-3 me-2">
         <img
           className="avatar sm rounded-circle"
-          src={avatar}
+          src={`images/${avatar}`}
           alt="avatar"
         />
       </div>

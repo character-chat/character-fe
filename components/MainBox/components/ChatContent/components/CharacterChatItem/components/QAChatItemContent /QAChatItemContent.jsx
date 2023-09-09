@@ -8,7 +8,7 @@ function QAChatItemContent({ history }) {
   return (
     <div className="rounded d-flex align-items-start w-75 flex-column mb-3 mt-3 shadow">
         <div className="border-bottom w-100 py-2">
-            <h3 className="text-center mb-0">Q&A</h3>
+            <h4 className="text-center mb-0">Q&A</h4>
         </div>
         <div className="p-3 w-100 rounded text-extra-small">
             <h5>Question</h5>

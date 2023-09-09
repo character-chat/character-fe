@@ -2,6 +2,7 @@ import axios from "axios";
 import {useEffect} from "react";
 import { connect } from "react-redux";
 import { updateCurrentChatCharacter,updateProfessionalChatList } from "../../../store/actions";
+import RecentChatItem from "./components/RecentChatItem"
 
 const RecentChat = ({
   updateCurrentChatCharacter,
@@ -20,7 +21,6 @@ const RecentChat = ({
       console.log(fetchedData.data)
       updateProfessionalChatList(fetchedData.data)
     }
-
     fetchCurrentChat()
   },[])
 
@@ -102,54 +102,8 @@ const RecentChat = ({
                 </div>
               </a>
             </li>
-
-            {professionalChat.map((chathistory) => (
-              <li
-                key={chathistory.professionalChatId}
-                className="online"
-                onClick={() => {
-                  setCurrentChatCharacter(chathistory);
-                }}
-              >
-                <div className="hover_action">
-                  <button type="button" className="btn btn-link text-info">
-                    <i className="zmdi zmdi-eye"></i>
-                  </button>
-                  <button type="button" className="btn btn-link text-warning">
-                    <i className="zmdi zmdi-star"></i>
-                  </button>
-                  <button type="button" className="btn btn-link text-danger">
-                    <i className="zmdi zmdi-delete"></i>
-                  </button>
-                </div>
-                <a href="#" className="card">
-                  <div className="card-body">
-                    <div className="media">
-                      <div className="avatar me-3">
-                        <div className="avatar rounded-circle no-image bg-info text-light">
-                          <span>
-                            <i className="zmdi zmdi-account"></i>
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="media-body overflow-hidden">
-                        <div className="d-flex align-items-center mb-1">
-                          <h6 className="text-truncate mb-0 me-auto">
-                            {chathistory.articleName}
-                          </h6>
-                          <p className="small text-muted text-nowrap ms-4 mb-0">
-                            {chathistory.createTime}
-                          </p>
-                        </div>
-                        <div className="text-truncate">
-                          {chathistory.articleName}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
+            {professionalChat.map((professionalChatItem) => (
+              <RecentChatItem key={professionalChatItem.professionalChatId}  professionalChatItem={professionalChatItem} setCurrentChatCharacter={setCurrentChatCharacter} />
             ))}
           </ul>
         </div>

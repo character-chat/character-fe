@@ -118,6 +118,9 @@ function Header({
     }
 
     if(!isProfessionalChat){
+      const randomNum = Math.floor(Math.random() * 10) + 1;
+      const avatar = `images/avatar${randomNum}.jpg`
+
       const professionalAssistantChat = {
         professionalChatId: professionalChatId,
         articleName: articleName,
@@ -125,10 +128,11 @@ function Header({
         isInBox: false,
         isTop: false,
         isDelete: false,
+        avatar: avatar
       }
       addProfessionalChat(professionalAssistantChat)
       updateCurrentChatCharacter(professionalAssistantChat),
-      axios.post(`http://localhost:8080/api/v1/chat/professionalAssistant/user/${userInfo.userId}/${articleId}/${articleName}`)
+      axios.post(`http://localhost:8080/api/v1/chat/professionalAssistant/user/${userInfo.userId}/${articleId}/${articleName},${avatar}`)
     }
   }
 
