@@ -12,7 +12,7 @@ const Register = () => {
   const router = useRouter();
   const [activeBubbleTags, setActiveBubbleTags] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log(activeBubbleTags);
@@ -24,9 +24,10 @@ const Register = () => {
     formData.append("email", email);
     formData.append("tags", activeBubbleTags.join(",")); // Convert array to comma-separated string
 
-    axios.post("http://localhost:8080/api/v1/user/register", formData);
-
-    // router.push("/chat");
+    const res = await axios.post("http://localhost:8080/api/v1/user/register", formData);
+    if(res.status===200){
+      router.push("/chat");
+    }
   };
 
   const containerWidth = 300;

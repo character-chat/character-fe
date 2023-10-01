@@ -130,7 +130,7 @@ const reducer = (state = initialState, action: any) => {
     case "ADD_TAG":
       return {
         ...state,
-        tagList: [...state.tagList,action.tag]
+        tagList: [...(state.tagList ?? []), action.tag]
       }
     case "SET_TAG_LIST":
       return {

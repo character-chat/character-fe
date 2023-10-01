@@ -253,3 +253,8 @@ box-shadow: 0px 10px 49px -14px rgba(0,0,0,0.7);
     width: 50px;
     height: 50px;
 }
+
+.quill-content img {
+    max-width: 100%; 
+    height: auto;  
+}

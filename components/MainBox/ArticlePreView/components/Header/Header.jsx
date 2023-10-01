@@ -51,7 +51,7 @@ function Header({
     }
     axios
       .get(
-        `http://localhost:8080/api/v1/chat/professionalAssistant/user/1/${articleId}/summary`
+        `http://localhost:8080/api/v1/chat/professionalAssistant/user/${userInfo.userId}/${articleId}/summary`
       )
       .then((response) => {
         const responseHistory = response.data;
@@ -72,7 +72,7 @@ function Header({
     
     axios
       .get(
-        `http://localhost:8080/api/v1/chat/professionalAssistant/user/1/${articleId}/qa`
+        `http://localhost:8080/api/v1/chat/professionalAssistant/user/${userInfo.userId}/${articleId}/qa`
       )
       .then((response) => {
         const responseHistory = response.data;
@@ -94,7 +94,7 @@ function Header({
 
     axios
       .get(
-        `http://localhost:8080/api/v1/chat/professionalAssistant/user/1/${articleId}/highlight`
+        `http://localhost:8080/api/v1/chat/professionalAssistant/user/${userInfo.userId}/${articleId}/highlight`
       )
       .then((response) => {
         const responseHistory = response.data;

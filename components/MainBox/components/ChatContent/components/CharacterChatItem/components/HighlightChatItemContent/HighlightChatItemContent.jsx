@@ -6,6 +6,18 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
+const modules = {
+  toolbar: [
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link', 'image', 'video'],
+    ['clean'],
+    [{ font: [] }],
+    [{ size: ['small', false, 'large', 'huge'] }],
+    [{ align: [] }],
+  ],
+};
+
 function HighlightChatItemContent({ history }) {
   const [isQuillDisplayed, setIsQuillDisplayed] = useState(false);
   const [quillContent, setQuillContent] = useState("");
@@ -42,7 +54,7 @@ function HighlightChatItemContent({ history }) {
         </div>
 
         {isQuillDisplayed ? (
-          ReactQuill && <ReactQuill onChange={setQuillContent} value={quillContent} />
+          ReactQuill && <div className=""><ReactQuill onChange={setQuillContent} value={quillContent} modules={modules}/></div>
         ) : (
           <div className="p-3" dangerouslySetInnerHTML={{ __html: quillContent }}></div>
         )}

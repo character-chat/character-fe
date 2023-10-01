@@ -59,7 +59,7 @@ function Home({
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/user/1");
+        const response = await axios.get("http://localhost:8080/api/v1/user/c4c9d86d-d32e-49e2-b176-f10b8b994dd1");
         console.log(response.data);
         updateUserInfo(response.data);
       } catch (error) {
