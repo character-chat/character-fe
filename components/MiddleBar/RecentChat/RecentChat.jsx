@@ -26,7 +26,7 @@ const RecentChat = ({
   },[])
 
   return (
-    <div className={`sidebar border-end py-xl-4 py-3 px-xl-4 px-3 ${isCheckArticle && 'w-15'}`}>
+    <div className={`sidebar border-end py-xl-4 py-3 px-xl-4 px-3 ${isCheckArticle? 'w-15': ''}`}>
       <div className="tab-content">
         <div
           className="tab-pane fade show active"

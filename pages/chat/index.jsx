@@ -9,7 +9,7 @@ import CharacterSet from "../../components/MainBox/CharacterSet";
 import ArticlePreView from "../../components/MainBox/ArticlePreView";
 import ToolColumn from "../../components/ToolColumn";
 import { connect } from "react-redux";
-import { updateUserInfo } from "../../store/actions";
+import { updateUserInfo, updateIsCheckArticle} from "../../store/actions";
 import { useEffect } from "react";
 import axios from "axios";
 
@@ -19,6 +19,8 @@ function Home({
   currentMainBox,
   currentArticle,
   updateUserInfo,
+  updateIsCheckArticle,
+  userInfo
 }) {
   const currentMiddleBarContent = () => {
     switch (currentMiddleBar) {
@@ -68,7 +70,10 @@ function Home({
     };
 
     fetchUser();
-  }, []);
+  }, [userInfo]);
+
+  useEffect(()=>{updateIsCheckArticle(false)},[currentMainBox,currentMiddleBar,currentChatCharacter])
+
 
   return (
     <div className="App">
@@ -88,11 +93,13 @@ const mapStateToProps = (state) => {
     currentMiddleBar: state.currentMiddleBar,
     currentMainBox: state.currentMainBox,
     currentArticle: state.currentArticle,
+    userInfo: state.userInfo,
   };
 };
 
 const mapDispatchToProps = {
   updateUserInfo,
+  updateIsCheckArticle  
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
