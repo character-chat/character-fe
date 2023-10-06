@@ -1,6 +1,10 @@
-import React from "react";
+import React,{ useState} from "react";
+import { Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import { updateIsCheckArticle } from "../../../../store/actions";
 
-function ChatHeader({name, avatar,time}) {
+function ChatHeader({name, avatar,time,isCheckArticle,updateIsCheckArticle}) {
+  const [isArticleDisplay,setIsArticleDisplay] = useState(true)
   return (
     <div className="chat-header border-bottom py-xl-4 py-md-3 py-2">
       <div className="container-xxl">
@@ -22,7 +26,7 @@ function ChatHeader({name, avatar,time}) {
 
           <div className="col-6 col-xl-8 text-end">
             <ul className="nav justify-content-end">
-              {/* <li className="nav-item list-inline-item d-none d-md-block me-3">
+              <li className="nav-item list-inline-item d-none d-md-block me-3">
                   <a
                     href="#"
                     className="nav-link text-muted px-3"
@@ -33,7 +37,7 @@ function ChatHeader({name, avatar,time}) {
                   >
                     <i className="zmdi zmdi-search zmdi-hc-lg"></i>
                   </a>
-                </li> */}
+                </li>
               <li className="nav-item list-inline-item d-none d-sm-block me-3">
                 <a
                   href="#"
@@ -57,6 +61,13 @@ function ChatHeader({name, avatar,time}) {
                   <i className="zmdi zmdi-account-add zmdi-hc-lg"></i>
                 </a>
               </li>
+              <Button
+                onClick={()=>{setIsArticleDisplay(!isArticleDisplay),updateIsCheckArticle(!isCheckArticle)}}
+              >
+                Check Article
+              </Button>
+
+              
 
               <li className="nav-item list-inline-item d-block d-sm-none px-3">
                 <div className="dropdown">
@@ -96,4 +107,14 @@ function ChatHeader({name, avatar,time}) {
   );
 }
 
-export default ChatHeader;
+const mapStateToProps = (state)=>{
+  return{
+    isCheckArticle: state.isCheckArticle
+  }
+};
+
+const mapDispatchToProps = {
+  updateIsCheckArticle
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatHeader);

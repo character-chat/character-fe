@@ -5948,6 +5948,9 @@ fieldset:disabled .btn {
 .w-10 {
   width: 10% !important;
 }
+.w-15 {
+  width: 15% !important;
+}
 .w-25 {
   width: 25% !important;
 }
@@ -10245,6 +10248,19 @@ body.admin .main-body .body-page::-webkit-scrollbar-thumb {
     top: 51px;
     height: calc(100vh - 51px);
   }
+}
+.main_check_article  {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+  -webkit-box-ordinal-group: 4;
+  -ms-flex-order: 3;
+  order: 3;
+  margin-right: 53px;
+  width:50%;
 }
 .main {
   -webkit-transition: all 0.2s ease-in-out;

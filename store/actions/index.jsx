@@ -117,3 +117,10 @@ export const deleteTag = (tagName)=>{
     tagName: tagName
   }
 }
+
+export const updateIsCheckArticle = (isCheckArticle)=> {
+  return {
+    type: "UPDATE_IS_CHECK_ARTICLE",
+    isCheckArticle: isCheckArticle
+  }
+}

@@ -5,11 +5,12 @@ import { useEffect } from "react";
 import axios from 'axios';
 import { connect } from 'react-redux';
 import {updateHistory} from "../../store/actions";
+import ArticlePreview from "./ArticlePreView"
+import { useState } from 'react';
 
-
-const MainBox = ({currentChatCharacter, history, updateHistory,userInfo}) => {
+const MainBox = ({currentChatCharacter, history, updateHistory,userInfo, currentArticle,isCheckArticle}) => {
   const {articleId, articleName, createTime, avatar} = currentChatCharacter
-  console.log(avatar)
+
   
   const setHistory=(event)=>{
     updateHistory(event)
@@ -26,14 +27,22 @@ const MainBox = ({currentChatCharacter, history, updateHistory,userInfo}) => {
     getHistory()
   } ,[currentChatCharacter])
 
+  console.log(currentArticle)
+
   return (
-    <div className="main px-xl-5 px-lg-4 px-3">
+    <>
+    <div className={`main px-xl-5 px-lg-4 px-3`}>
       <div className="chat-body">
         <ChatHeader name={articleName} avatar={avatar} time={createTime}/>
         <ChatContent chatHistoryArray={history} name={articleName} avatar={avatar}/>
         <ChatInput setHistory={setHistory} currentChatCharacter={currentChatCharacter}/>
       </div>
     </div>
+
+    {isCheckArticle && <ArticlePreview currentArticle={currentArticle} isComeFromChat={true}/>}
+
+    
+    </>
   );
 };
 
@@ -41,7 +50,9 @@ const mapStateToProps = (state) => {
   return {
     currentChatCharacter: state.currentChatCharacter,
     history: state.history,
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    currentArticle: state.currentArticle,
+    isCheckArticle: state.isCheckArticle
   };
 };
 

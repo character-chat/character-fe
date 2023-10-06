@@ -23,19 +23,20 @@ function Header({
   addProfessionalChat,
   userInfo,
   professionalChat,
+  isComeFromChat = false
 }) {
   const currentChat = {
     characterGetDto: {
-      characterId: article.articleId,
-      name: article.title,
+      characterId: article?.articleId,
+      name: article?.title,
       avatar: "",
     },
     history: [],
   };
 
   const currentCharacter = {
-    characterId: article.articleId,
-    name: article.title,
+    characterId: article?.articleId,
+    name: article?.title,
     time: "last 6 seconds",
     avatar: "",
   };
@@ -148,6 +149,9 @@ function Header({
 
           <div className="col-3 col-xl-4 text-end">
             <ul className="nav justify-content-end">
+              
+              {!isComeFromChat &&
+              <>
               <li className="nav-item list-inline-item add-user-btn">
                 <a
                   href="#"
@@ -170,6 +174,8 @@ function Header({
               >
                 Chat
               </Button>
+              </>
+              }
             </ul>
           </div>
         </div>

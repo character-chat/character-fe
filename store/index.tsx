@@ -34,6 +34,7 @@ interface State {
   };
   tagList: Tag[];
   professionalChat: any[];
+  isCheckArticle: boolean;
 }
 
 const initialState: State = {
@@ -63,6 +64,7 @@ const initialState: State = {
   userInfo: {tagList:[]},
   tagList: [],
   professionalChat: [],
+  isCheckArticle: false,
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -151,6 +153,11 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         professionalChat: action.professionalChatList
+      }
+    case "UPDATE_IS_CHECK_ARTICLE":
+      return {
+        ...state,
+        isCheckArticle: action.isCheckArticle
       }
     default:
       return state;
