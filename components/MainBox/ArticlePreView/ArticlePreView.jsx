@@ -6,7 +6,7 @@ import Content from "./components/Content"
 
 const ArticlePreView = ({article,isComeFromChat}) => {
     return(
-        <div className="main px-xl-5 px-lg-4 px-3"style={{overflow: 'auto'}}>
+        <div className={`main px-xl-5 px-lg-4 px-3`} style={{overflow: 'auto'}}>
             <Header article={article} isComeFromChat={isComeFromChat}/>
             <Content content={article?.content}/>
         </div>

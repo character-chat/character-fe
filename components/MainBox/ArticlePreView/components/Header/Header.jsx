@@ -141,11 +141,17 @@ function Header({
     <div className="chat-header border-bottom py-xl-4 py-md-3 py-2">
       <div className="container-xxl">
         <div className="row align-items-center">
-          <div className="col-8 col-xl-8">
+
+          {isComeFromChat? 
+            <div className="w-100">
+              <h2>{article?.title}</h2>
+            </div>: <div className="col-8 col-xl-8">
             <div className="w-100">
               <h2>{article?.title}</h2>
             </div>
-          </div>
+          </div>}
+
+
 
           <div className="col-3 col-xl-4 text-end">
             <ul className="nav justify-content-end">

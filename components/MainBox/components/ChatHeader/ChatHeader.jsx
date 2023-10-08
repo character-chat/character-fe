@@ -1,10 +1,18 @@
-import React,{ useState} from "react";
+import axios from "axios";
+import React,{ useState,useEffect} from "react";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { updateIsCheckArticle } from "../../../../store/actions";
+import { updateIsCheckArticle,updateCurrentArticle } from "../../../../store/actions";
 
-function ChatHeader({name, avatar,time,isCheckArticle,updateIsCheckArticle}) {
+function ChatHeader({name, avatar,time,isCheckArticle,articleId,updateIsCheckArticle,updateCurrentArticle}) {
   const [isArticleDisplay,setIsArticleDisplay] = useState(true)
+
+  const getArticleById =async ()=>{
+    const res = await axios.get(`http://localhost:8080/api/v1/article/${articleId}`)
+    console.log(res)
+    updateCurrentArticle(res.data)
+  }
+
   return (
     <div className="chat-header border-bottom py-xl-4 py-md-3 py-2">
       <div className="container-xxl">
@@ -62,7 +70,7 @@ function ChatHeader({name, avatar,time,isCheckArticle,updateIsCheckArticle}) {
                 </a>
               </li>
               <Button
-                onClick={()=>{setIsArticleDisplay(!isArticleDisplay),updateIsCheckArticle(!isCheckArticle)}}
+                onClick={()=>{setIsArticleDisplay(!isArticleDisplay),updateIsCheckArticle(!isCheckArticle),getArticleById()}}
               >
                 Check Article
               </Button>
@@ -114,7 +122,8 @@ const mapStateToProps = (state)=>{
 };
 
 const mapDispatchToProps = {
-  updateIsCheckArticle
+  updateIsCheckArticle,
+  updateCurrentArticle,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatHeader);

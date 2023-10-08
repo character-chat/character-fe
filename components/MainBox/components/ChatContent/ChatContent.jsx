@@ -9,9 +9,6 @@ function ChatContent({chatHistoryArray, avatar, name}) {
           <div className="container-xxl">
             <ul className="list-unstyled py-4">
               {chatHistoryArray?.map((history)=>{
-                console.log(history)
-
-                console.log(history.senderType)
                 if(history.senderType==='ASSISTANT'){
                   return(<CharacterChatItem key={history.historyId} chatHistory={history} name={name} avatar={avatar}/>)
                 }

@@ -10259,8 +10259,10 @@ body.admin .main-body .body-page::-webkit-scrollbar-thumb {
   -webkit-box-ordinal-group: 4;
   -ms-flex-order: 3;
   order: 3;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   margin-right: 53px;
-  width:50%;
 }
 .main {
   -webkit-transition: all 0.2s ease-in-out;
@@ -10275,7 +10277,7 @@ body.admin .main-body .body-page::-webkit-scrollbar-thumb {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  margin-right: 53px;
+  /* margin-right: 53px; */
 }
 .main .chat-body {
   -webkit-transition: all 0.2s ease-in-out;

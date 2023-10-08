@@ -10,7 +10,6 @@ import { useState } from 'react';
 
 const MainBox = ({currentChatCharacter, history, updateHistory,userInfo, currentArticle,isCheckArticle}) => {
   const {articleId, articleName, createTime, avatar} = currentChatCharacter
-
   
   const setHistory=(event)=>{
     updateHistory(event)
@@ -27,21 +26,23 @@ const MainBox = ({currentChatCharacter, history, updateHistory,userInfo, current
     getHistory()
   } ,[currentChatCharacter])
 
-  console.log(currentArticle)
+  useEffect(()=>{
+    console.log(currentArticle)
+  },[currentArticle])
+
+
 
   return (
     <>
-    <div className={`main px-xl-5 px-lg-4 px-3`}>
+    <div className={`main w-25 px-xl-5 px-lg-4 px-3`}>
       <div className="chat-body">
-        <ChatHeader name={articleName} avatar={avatar} time={createTime}/>
+        <ChatHeader name={articleName} avatar={avatar} time={createTime} articleId={articleId}/>
         <ChatContent chatHistoryArray={history} name={articleName} avatar={avatar}/>
         <ChatInput setHistory={setHistory} currentChatCharacter={currentChatCharacter}/>
       </div>
     </div>
 
-    {isCheckArticle && <ArticlePreview currentArticle={currentArticle} isComeFromChat={true}/>}
-
-    
+    {isCheckArticle && <ArticlePreview article={currentArticle} isComeFromChat={true}/>}
     </>
   );
 };
