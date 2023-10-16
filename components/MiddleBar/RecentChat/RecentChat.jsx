@@ -1,15 +1,19 @@
 import axios from "axios";
 import {useEffect} from "react";
 import { connect } from "react-redux";
-import { updateCurrentChatCharacter,updateProfessionalChatList } from "../../../store/actions";
+import { updateCurrentChatCharacter,updateGroupChatList,updateProfessionalChatList } from "../../../store/actions";
 import RecentChatItem from "./components/RecentChatItem"
+import GroupChatItem from "./components/GroupChatItem"
+
 
 const RecentChat = ({
   updateCurrentChatCharacter,
-  professionalChat,
+  professionalChatList,
   updateProfessionalChatList,
   userInfo,
-  isCheckArticle
+  isCheckArticle,
+  groupChatList,
+  updateGroupChatList
 }) => {
   const setCurrentChatCharacter = (event) => {
     updateCurrentChatCharacter(event);
@@ -22,8 +26,16 @@ const RecentChat = ({
       console.log(fetchedData.data)
       updateProfessionalChatList(fetchedData.data)
     }
+    const fetchGroupChat = async ()=>{
+      const fetchedData = await axios.get(`http://localhost:8080/api/v1/chat/groupChat/user/${userInfo.userId}`)
+      console.log(fetchedData.data)
+      updateGroupChatList(fetchedData.data)
+    }
     fetchCurrentChat()
+    fetchGroupChat()
   },[])
+
+  useEffect(()=>{console.log(groupChatList)},[groupChatList])
 
   return (
     <div className={`sidebar border-end py-xl-4 py-3 px-xl-4 px-3 ${isCheckArticle? 'w-15': ''}`}>
@@ -103,8 +115,12 @@ const RecentChat = ({
                 </div>
               </a>
             </li>
-            {professionalChat.map((professionalChatItem) => (
+            {professionalChatList.map((professionalChatItem) => (
               <RecentChatItem key={professionalChatItem.professionalChatId}  professionalChatItem={professionalChatItem} setCurrentChatCharacter={setCurrentChatCharacter} />
+            ))}
+
+            {groupChatList.map((groupChat)=>(
+              <GroupChatItem key={groupChat.professionalChatId}  groupChatItem={groupChat} setCurrentChatCharacter={setCurrentChatCharacter}/>
             ))}
           </ul>
         </div>
@@ -117,15 +133,17 @@ const mapStateToProps = (state) => {
   return {
     currentChatCharacter: state.currentChatCharacter,
     currentChatList: state.currentChatList,
-    professionalChat: state.professionalChat,
+    professionalChatList: state.professionalChatList,
     userInfo: state.userInfo,
     isCheckArticle: state.isCheckArticle,
+    groupChatList: state.groupChatList
   };
 };
 
 const mapDispatchToProps = {
   updateCurrentChatCharacter,
-  updateProfessionalChatList
+  updateProfessionalChatList,
+  updateGroupChatList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecentChat);

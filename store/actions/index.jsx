@@ -124,3 +124,18 @@ export const updateIsCheckArticle = (isCheckArticle)=> {
     isCheckArticle: isCheckArticle
   }
 }
+
+export const updateGroupChatList = (groupChatList)=>{
+  return {
+    type: "UPDATE_GROUP_CHAT_LIST",
+    groupChatList: groupChatList
+  }
+}
+
+
+export const addGroupChatList = (groupChatList)=>{
+  return {
+    type: "ADD_GROUP_CHAT_LIST",
+    groupChatList: groupChatList
+  }
+}

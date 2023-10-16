@@ -58,19 +58,19 @@ function Home({
     }
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/v1/user/1");
-        console.log(response.data);
-        updateUserInfo(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:8080/api/v1/user/1");
+  //       console.log(response.data);
+  //       updateUserInfo(response.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   useEffect(()=>{updateIsCheckArticle(false)},[currentMainBox,currentMiddleBar,currentChatCharacter])
 

@@ -33,8 +33,9 @@ interface State {
     tagList: any[];
   };
   tagList: Tag[];
-  professionalChat: any[];
+  professionalChatList: any[];
   isCheckArticle: boolean;
+  groupChatList: any[]
 }
 
 const initialState: State = {
@@ -63,8 +64,9 @@ const initialState: State = {
   currentChatList: [],
   userInfo: {tagList:[]},
   tagList: [],
-  professionalChat: [],
+  professionalChatList: [],
   isCheckArticle: false,
+  groupChatList: []
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -147,17 +149,27 @@ const reducer = (state = initialState, action: any) => {
     case "ADD_PROFESSIONAL_CHAT":
       return {
         ...state,
-        professionalChat: [...state.professionalChat,action.professionalChat]
+        professionalChatList: [...state.professionalChatList,action.professionalChat]
       }
     case "UPDATE_PROFESSIONAL_CHAT":
       return {
         ...state,
-        professionalChat: action.professionalChatList
+        professionalChatList: action.professionalChatList
       }
     case "UPDATE_IS_CHECK_ARTICLE":
       return {
         ...state,
         isCheckArticle: action.isCheckArticle
+      }
+    case "UPDATE_GROUP_CHAT_LIST":
+      return {
+        ...state,
+        groupChatList: action.groupChatList
+      }
+    case "ADD_GROUP_CHAT_LIST":
+      return {
+        ...state,
+        groupChatList: [...state.groupChatList,action.groupChatList]
       }
     default:
       return state;

@@ -197,7 +197,7 @@ const Article = ({
   useEffect(() => {
     const fetchArticleList = async () => {
       const { data: articleListData } = await axios.get(
-        "http://localhost:8080/api/v1/article"
+        `http://localhost:8080/api/v1/article/list/${userInfo.userId}`
       );
       updateArticleList(articleListData);
     };
