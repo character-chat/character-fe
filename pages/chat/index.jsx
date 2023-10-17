@@ -11,16 +11,13 @@ import ToolColumn from "../../components/ToolColumn";
 import { connect } from "react-redux";
 import { updateUserInfo, updateIsCheckArticle} from "../../store/actions";
 import { useEffect } from "react";
-import axios from "axios";
 
 function Home({
-  currentChatCharacter,
+  currentChatInfo,
   currentMiddleBar,
   currentMainBox,
   currentArticle,
-  updateUserInfo,
   updateIsCheckArticle,
-  userInfo
 }) {
   const currentMiddleBarContent = () => {
     switch (currentMiddleBar) {
@@ -36,16 +33,16 @@ function Home({
   const currentMainBoxContent = () => {
     switch (currentMainBox) {
       case "RecentChat":
-        return currentChatCharacter === undefined ? (
+        return currentChatInfo === undefined ? (
           <DefaultChatReminder />
         ) : (
-          <MainBox currentChatCharacter={currentChatCharacter} />
+          <MainBox currentChatInfo={currentChatInfo} />
         );
       case "Contact":
-        return currentChatCharacter === undefined ? (
+        return currentChatInfo === undefined ? (
           <DefaultChatReminder />
         ) : (
-          <CharacterSet currentChatCharacter={currentChatCharacter} />
+          <CharacterSet currentChatInfo={currentChatInfo} />
         );
       case "Article":
         return currentArticle === "" ? (
@@ -58,21 +55,7 @@ function Home({
     }
   };
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:8080/api/v1/user/1");
-  //       console.log(response.data);
-  //       updateUserInfo(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchUser();
-  // }, []);
-
-  useEffect(()=>{updateIsCheckArticle(false)},[currentMainBox,currentMiddleBar,currentChatCharacter])
+  useEffect(()=>{updateIsCheckArticle(false)},[currentMainBox,currentMiddleBar,currentChatInfo])
 
 
   return (
@@ -89,7 +72,7 @@ function Home({
 
 const mapStateToProps = (state) => {
   return {
-    currentChatCharacter: state.currentChatCharacter,
+    currentChatInfo: state.currentChatInfo,
     currentMiddleBar: state.currentMiddleBar,
     currentMainBox: state.currentMainBox,
     currentArticle: state.currentArticle,

@@ -5,6 +5,14 @@ import { connect } from "react-redux";
 const RecentChatItem = ({ professionalChatItem, setCurrentChatCharacter,userInfo}) => {
   const [lastChat, setLastChat] = useState("");
 
+  const currentChatInfo={
+    chatId: professionalChatItem.articleId,
+    chatType: "PROFESSIONAL",
+    chatTitle: professionalChatItem.articleName,
+    createTime: professionalChatItem.createTime,
+    avatar: professionalChatItem.avatar,
+  }
+
   useEffect(() => {
     const fetchLastChat = async () => {
       const chat = await axios.get(
@@ -23,7 +31,7 @@ const RecentChatItem = ({ professionalChatItem, setCurrentChatCharacter,userInfo
         key={professionalChatItem.professionalChatId}
         className="online"
         onClick={() => {
-          setCurrentChatCharacter(professionalChatItem);
+          setCurrentChatCharacter(currentChatInfo);
         }}
       >
         <div className="hover_action">

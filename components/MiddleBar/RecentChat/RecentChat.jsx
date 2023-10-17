@@ -1,13 +1,13 @@
 import axios from "axios";
 import {useEffect} from "react";
 import { connect } from "react-redux";
-import { updateCurrentChatCharacter,updateGroupChatList,updateProfessionalChatList } from "../../../store/actions";
+import { updateCurrentChatInfo,updateGroupChatList,updateProfessionalChatList } from "../../../store/actions";
 import RecentChatItem from "./components/RecentChatItem"
 import GroupChatItem from "./components/GroupChatItem"
 
 
 const RecentChat = ({
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
   professionalChatList,
   updateProfessionalChatList,
   userInfo,
@@ -15,8 +15,9 @@ const RecentChat = ({
   groupChatList,
   updateGroupChatList
 }) => {
+  
   const setCurrentChatCharacter = (event) => {
-    updateCurrentChatCharacter(event);
+    updateCurrentChatInfo(event);
   };
 
 
@@ -131,7 +132,7 @@ const RecentChat = ({
 
 const mapStateToProps = (state) => {
   return {
-    currentChatCharacter: state.currentChatCharacter,
+    currentChatInfo: state.currentChatInfo,
     currentChatList: state.currentChatList,
     professionalChatList: state.professionalChatList,
     userInfo: state.userInfo,
@@ -141,7 +142,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
   updateProfessionalChatList,
   updateGroupChatList
 };

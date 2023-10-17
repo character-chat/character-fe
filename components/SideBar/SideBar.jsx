@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import {
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
   updateCurrentMiddleBar,
   updateCurrentMainBox,
 } from "../../store/actions";
 
 
 const SideBar = ({
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
   updateCurrentMiddleBar,
   updateCurrentMainBox,
 }) => {
   const [activeButton, setActiveButton] = useState(null);
 
   const setCurrentChatCharacter = (event) => {
-    updateCurrentChatCharacter(event);
+    updateCurrentChatInfo(event);
   };
 
   const setCurrentMiddleBar = (event) => {
@@ -137,7 +137,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
   updateCurrentMiddleBar,
   updateCurrentMainBox,
 };

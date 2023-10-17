@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
-import { Button, Modal, Input } from "react-bootstrap";
+import { Button, Modal} from "react-bootstrap";
 import { connect } from "react-redux";
 import {
   addChatList,
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
   updateHistory,
   addHistory,
   updateCurrentMiddleBar,
@@ -19,7 +19,7 @@ function Header({
   article,
   updateCurrentMiddleBar,
   updateCurrentMainBox,
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
   addHistory,
   addProfessionalChat,
   userInfo,
@@ -117,6 +117,7 @@ function Header({
 
   const addProfessionalAssistantChat = (articleId, articleName) => {
     const professionalChatId = userInfo?.userId + "_" + articleId;
+    console.log(articleId)
 
     const isProfessionalChat = professionalChatList.find((item) => {
       return item.articleName === articleName;
@@ -131,16 +132,12 @@ function Header({
       const avatar = `images/avatar${randomNum}.jpg`;
 
       const professionalAssistantChat = {
-        professionalChatId: professionalChatId,
-        articleName: articleName,
-        notificationNumber: 0,
-        isInBox: false,
-        isTop: false,
-        isDelete: false,
+        chatId: professionalChatId,
+        chatTitle: articleName,
         avatar: avatar,
       };
       addProfessionalChat(professionalAssistantChat);
-      updateCurrentChatCharacter(professionalAssistantChat),
+      updateCurrentChatInfo(professionalAssistantChat),
         axios.post(
           `http://localhost:8080/api/v1/chat/professionalAssistant/user/${userInfo.userId}/${articleId}/${articleName}/${avatar}`
         );
@@ -161,7 +158,7 @@ function Header({
         const groupChat = res.data;
         addGroupChatList(groupChat);
         const professionalAssistantChat = {
-          professionalChatId: groupChat.groupId,
+          chatId: groupChat.groupId,
           articleName: groupChat.groupChatName,
           notificationNumber: 0,
           isInBox: false,
@@ -169,7 +166,7 @@ function Header({
           isDelete: false,
           avatar: "",
         };
-        updateCurrentChatCharacter(professionalAssistantChat);
+        updateCurrentChatInfo(professionalAssistantChat);
       })
       .catch((error) => {
         console.log(error);
@@ -334,7 +331,7 @@ function Header({
 
 const mapStateToProps = (state) => {
   return {
-    currentChatCharacter: state.currentChatCharacter,
+    currentChatInfo: state.currentChatInfo,
     currentChatList: state.currentChatList,
     history: state.history,
     articleList: state.articleList,
@@ -349,7 +346,7 @@ const mapDispatchToProps = {
   addChatList,
   updateCurrentMiddleBar,
   updateCurrentMainBox,
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
   updateHistory,
   addHistory,
   addProfessionalChat,

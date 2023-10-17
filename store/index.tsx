@@ -20,6 +20,19 @@ interface Article {
   tag?: string[];
 }
 
+export interface CurrentChatInfo {
+  chatId?: string;
+  chatType?: "PROFESSIONAL" | "GROUP";
+  chatTitle?: string;
+  groupMembers?: any[];
+  avatar?: string;
+  createTime?: string;
+  notificationNumber: number;
+  isInBox: boolean;
+  isTop: boolean;
+  isDelete: boolean;
+}
+
 interface State {
   currentChatCharacter: string;
   currentMiddleBar: string;
@@ -35,7 +48,8 @@ interface State {
   tagList: Tag[];
   professionalChatList: any[];
   isCheckArticle: boolean;
-  groupChatList: any[]
+  groupChatList: any[];
+  currentChatInfo: CurrentChatInfo
 }
 
 const initialState: State = {
@@ -66,7 +80,13 @@ const initialState: State = {
   tagList: [],
   professionalChatList: [],
   isCheckArticle: false,
-  groupChatList: []
+  groupChatList: [],
+  currentChatInfo: {   
+    notificationNumber: 0,
+    isInBox: false,
+    isTop: false,
+    isDelete: false,
+  },
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -170,6 +190,11 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         groupChatList: [...state.groupChatList,action.groupChatList]
+      }
+    case "UPDATE_CURRENT_CHAT_INFO":
+      return {
+        ...state,
+        currentChatInfo: action.currentChatInfo
       }
     default:
       return state;

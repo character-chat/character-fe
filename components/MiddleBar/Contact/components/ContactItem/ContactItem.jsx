@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { updateCurrentChatCharacter } from "../../../../../store/actions";
+import { updateCurrentChatInfo } from "../../../../../store/actions";
 
-function ContactItem({ currentCharacter, updateCurrentChatCharacter }) {
+function ContactItem({ currentCharacter, updateCurrentChatInfo }) {
   const {  name, time, avatar } = currentCharacter;
 
   const setCurrentChatCharacter = (event) => {
-    updateCurrentChatCharacter(event);
+    updateCurrentChatInfo(event);
   };
 
   return (
@@ -51,7 +51,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);

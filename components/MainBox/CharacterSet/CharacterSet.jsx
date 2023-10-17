@@ -8,11 +8,11 @@ import {
 } from "../../../store/actions";
 
 function CharacterSet({
-  currentChatCharacter,
+  currentChatInfo,
   updateCurrentChatCharacter,
   deleteCharacter,
 }) {
-  const { characterId } = currentChatCharacter;
+  const { characterId } = currentChatInfo;
   const [name, setName] = useState();
   const [uploadAvatar, setUploadAvatar] = useState();
   const [api, setApi] = useState();
@@ -33,7 +33,7 @@ function CharacterSet({
         const imageBase64 = "data:image/png;base64," + character.avatar;
         setAvatarImg(imageBase64);
       });
-  }, [currentChatCharacter]);
+  }, [currentChatInfo]);
 
   const submitHandler = (event) => {
     event.preventDefault();

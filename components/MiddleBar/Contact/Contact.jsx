@@ -1,6 +1,6 @@
 import ContactItem from "./components/ContactItem";
 import { connect } from "react-redux";
-import { updateCurrentChatCharacter } from "../../../store/actions";
+import { updateCurrentChatInfo } from "../../../store/actions";
 
 const Contact = ({ currentCharacterList }) => {
 
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  updateCurrentChatCharacter,
+  updateCurrentChatInfo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contact);

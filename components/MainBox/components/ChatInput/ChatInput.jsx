@@ -1,13 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
-import { userInfo } from "os";
 
-
-function ChatInput({ setHistory, currentChatCharacter,history,userInfo }) {
-  const { articleId } = currentChatCharacter;
-  console.log(currentChatCharacter)
+function ChatInput({ setHistory, currentChatInfo,history,userInfo }) {
+  const { professionalArticleId } = currentChatInfo;
   const [inputValue, setInputValue] = useState("");
   const [isBreak, setIsBreak] = useState(true);
   const [isJustSend, setIsJustSend] = useState(false);
@@ -82,7 +78,7 @@ function ChatInput({ setHistory, currentChatCharacter,history,userInfo }) {
       senderType: "USER",
       chatType: "PROFESSIONAL",
       userId: userInfo.userId,
-      professionalAssistantId: articleId,
+      professionalAssistantId: professionalArticleId,
       content: inputValue,
       file: displayFile,
       createTime: formatted,

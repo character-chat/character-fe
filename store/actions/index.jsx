@@ -139,3 +139,10 @@ export const addGroupChatList = (groupChatList)=>{
     groupChatList: groupChatList
   }
 }
+
+export const updateCurrentChatInfo = (currentChatInfo)=>{
+  return {
+    type: "UPDATE_CURRENT_CHAT_INFO",
+    currentChatInfo: currentChatInfo
+  }
+} 

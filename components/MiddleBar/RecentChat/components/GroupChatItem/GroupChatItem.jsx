@@ -8,7 +8,13 @@ const GroupChatItem = ({
   userInfo,
 }) => {
   const [lastChat, setLastChat] = useState("");
-  console.log(groupChatItem);
+
+  const currentChatInfo={
+    chatId: groupChatItem.groupId,
+    chatType: "GROUP",
+    chatTitle: groupChatItem.groupChatName,
+    groupMembers: groupChatItem.members,
+  }
 
   useEffect(() => {
     const fetchLastChat = async () => {
@@ -28,7 +34,8 @@ const GroupChatItem = ({
         key={groupChatItem.groupId}
         className="online"
         onClick={() => {
-          setCurrentChatCharacter(groupChatItem);
+          // adjust groupchatItem
+          setCurrentChatCharacter(currentChatInfo);
         }}
       >
         <div className="hover_action">
@@ -42,7 +49,7 @@ const GroupChatItem = ({
             <i className="zmdi zmdi-delete"></i>
           </button>
         </div>
-        <a href="group-chat.html" className="card">
+        <a href="#" className="card">
           <div className="card-body">
             <div className="media">
               <div className="avatar me-3">
