@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from 'react-redux';
 
 function ChatInput({ setHistory, currentChatInfo,history,userInfo }) {
-  const { professionalArticleId } = currentChatInfo;
+  const { chatId } = currentChatInfo;
   const [inputValue, setInputValue] = useState("");
   const [isBreak, setIsBreak] = useState(true);
   const [isJustSend, setIsJustSend] = useState(false);
@@ -55,7 +55,7 @@ function ChatInput({ setHistory, currentChatInfo,history,userInfo }) {
     if(file){
       formData.append('file', file);
     }
-    axios.put('http://localhost:8080/api/v1/chat/user/1', formData).then((response)=>{
+    axios.put('http://localhost:8080/api/v1/chat/user/282932e4-8d9f-44a5-b4bc-892d7034c695', formData).then((response)=>{
       const responseHistory = response.data;
       responseHistory.map((responseHistoryItem) => {
         setHistory((preState) => [...preState, responseHistoryItem]);
@@ -78,7 +78,7 @@ function ChatInput({ setHistory, currentChatInfo,history,userInfo }) {
       senderType: "USER",
       chatType: "PROFESSIONAL",
       userId: userInfo.userId,
-      professionalAssistantId: professionalArticleId,
+      professionalAssistantId: chatId,
       content: inputValue,
       file: displayFile,
       createTime: formatted,

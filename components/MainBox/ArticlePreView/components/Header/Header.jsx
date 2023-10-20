@@ -183,7 +183,7 @@ function Header({
     addProfessionalAssistantChat(article.articleId, article.title);
     chatSummaryHandler(article.title, article.articleId);
     chatQaHandler(article.title, article.articleId),
-      chatHighlightHandler(article.title, article.articleId);
+    chatHighlightHandler(article.title, article.articleId);
   };
 
   // handle chat with multiple article

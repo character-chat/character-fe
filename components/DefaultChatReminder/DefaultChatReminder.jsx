@@ -13,7 +13,7 @@ export const DefaultChatReminder = () => {
               <span className="a-bg-1"></span>
               <span className="a-bg-2"></span>
             </div>
-            <h5 className="font-weight-bold">Hey, Robert!</h5>
+            <h5 className="font-weight-bold">Hey!</h5>
             <p>Please select a chat to start messaging.</p>
           </div>
         </div>
